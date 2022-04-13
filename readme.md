@@ -1,4 +1,4 @@
-#Smart-home
+# Smart-home
 
 ## TO DO
 ### Arduino 
