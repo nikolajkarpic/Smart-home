@@ -62,8 +62,9 @@ def main():
                 newData = serialString.decode("Ascii")
             except:
                 pass
-
-            [digitalPinsDict, analoguePinsDict] = splitStringToDict(newData)
+            if(newData[0] == 'D'):
+                [digitalPinsDict, analoguePinsDict] = splitStringToDict(
+                    newData)
 
             # afted you're done testing enable this, so that the server doesnt send unnesccecary data
             # if(newData == oldData):
