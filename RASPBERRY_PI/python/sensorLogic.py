@@ -1,6 +1,8 @@
+from re import L
 from urllib import request
 import serial
 import requests
+from setuptools import Command
 
 
 def splitStringToDict(sensorData):
@@ -24,6 +26,15 @@ def splitStringToDict(sensorData):
     return [digitalPinsDict, analoguePinsDict]
 
 # doesnt work as of now... implement class bassed structure.
+
+
+def doorLogic(newData, oldData):
+    if(newData == oldData):
+        return
+    comand = ""
+    value = ""
+    [Command, value] = newData.split(:)
+    print(Command, value)
 
 
 def readFromFIle():

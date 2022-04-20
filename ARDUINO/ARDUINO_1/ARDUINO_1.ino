@@ -1,6 +1,7 @@
 #include <SPI.h> //spi for RFID communication
 #include <MFRC522.h>
 #include <Keypad.h>
+#include <Servo.h>
 
 #define BAUD_RATE 9600
 
@@ -19,8 +20,15 @@ MFRC522::MIFARE_Key key;
 // LED indicators for keypad PIN
 #define led1 4
 #define led2 5
-#define led3 6
+#define led3 8
 #define led4 7
+
+// servo Pin
+#define SERVO_PIN 6
+#define LOCKED_POSITION 90
+#define UNLOCKED_POSITION 0
+Servo doorLock;
+int doorLockPosition = LOCKED_POSITION;
 
 String passCode = "PIN:"; // String that holds pass
 String serialCommand;     // serial in data string
@@ -31,10 +39,11 @@ const byte COLS = 4; // four columns
 unsigned char ledArray[4] = {0, 0, 0, 0}; // LED array
 unsigned char passEntered = 0;            // pin entered, four digits pressed on keypad
 unsigned char locked = 1;                 // door locked
-unsigned char ledOn = 0;                  // LED manipulation via SERIAL
+unsigned char ledOn = 1;                  // LED manipulation via SERIAL
 unsigned char rfidEnable = 1;             // enabling RFID via serial
 char pass[] = "0000";                     // holds pin
 int keyNum = 0;                           // nuber of times keys have been pressed
+unsigned char pinEnable = 1;
 
 // define the cymbols on the buttons of the keypads
 char hexaKeys[ROWS][COLS] = {
@@ -50,6 +59,9 @@ Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS)
 
 void setup()
 {
+  doorLock.attach(SERVO_PIN);
+  doorLock.write(doorLockPosition);
+
   Serial.begin(BAUD_RATE); // enableing serial
   pinMode(led1, OUTPUT);   // setting pin mode to output
   pinMode(led2, OUTPUT);
@@ -73,12 +85,12 @@ void loop()
     if (serialCommand == "unlock")
     {
       locked = 0;
-      Serial.println("otkljuco");
+      // Serial.println("otkljuco");
     }
     if (serialCommand == "lock")
     {
-      locked = 0;
-      Serial.println("zakljuco");
+      locked = 1;
+      // Serial.println("zakljuco");
     }
     if (serialCommand == "ledon")
     {
@@ -87,108 +99,142 @@ void loop()
       Serial.println("LED ON");
     }
 
-    if (serialCommand == "ledon")
+    if (serialCommand == "ledoff")
     {
-
       ledOn = 0;
-      Serial.println("LED OFF");
+      // Serial.println("LED OFF");
     }
     if (serialCommand == "enRFID")
     {
       rfidEnable = 1;
-      Serial.println("omogucio rfid");
+      // Serial.println("omogucio rfid");
     }
     if (serialCommand == "disRFID")
     {
       rfidEnable = 0;
-      Serial.println("onemogucio rfid");
+      // Serial.println("onemogucio rfid");
     }
+    if (serialCommand == "enPIN")
+    {
+      pinEnable = 1;
+    }
+    if (serialCommand == "disPIN")
+    {
+      pinEnable = 0;
+    }
+    serialCommand = "";
+  }
 
-    // Working kaypad logic.
+  // Working kaypad logic.
+  if (pinEnable)
+  {
     char customKey = customKeypad.getKey();
+  }
 
-    if (customKey)
+  if (customKey)
+  {
+    Serial.println(customKey);
+
+    if (passEntered)
     {
-      Serial.println(customKey);
-
-      if (passEntered)
-      {
-        ledArray[1] = 0;
-        ledArray[2] = 0;
-        ledArray[3] = 0;
-        ledArray[0] = 0;
-      }
-      pass[keyNum] = customKey;
-      ledArray[keyNum] = 1;
-      passEntered = 0;
-      keyNum++;
+      ledArray[1] = 0;
+      ledArray[2] = 0;
+      ledArray[3] = 0;
+      ledArray[0] = 0;
     }
+    pass[keyNum] = customKey;
+    ledArray[keyNum] = 1;
+    passEntered = 0;
+    keyNum++;
+  }
 
-    if (keyNum == 4)
-    {
-      passEntered = 1;
-      passCode = passCode + pass;
-      Serial.println(passCode);
-      passCode = "PIN:";
-      keyNum = 0;
-    }
+  if (keyNum == 4)
+  {
+    passEntered = 1;
+    passCode = passCode + pass;
+    Serial.println(passCode);
+    passCode = "PIN:";
+    pinEnable = 0;
+    keyNum = 0;
+  }
 
-    if (!locked || ledOn)
+  if (passEntered)
+  {
+    if (ledOn)
     {
       ledArray[1] = 1;
       ledArray[2] = 1;
       ledArray[3] = 1;
       ledArray[0] = 1;
     }
-
-    if (ledArray[0])
-    {
-      digitalWrite(led1, HIGH);
-    }
     else
     {
-      digitalWrite(led1, LOW);
-    }
-    if (ledArray[1])
-    {
-      digitalWrite(led2, HIGH);
-    }
-    else
-    {
-      digitalWrite(led2, LOW);
-    }
-    if (ledArray[2])
-    {
-      digitalWrite(led3, HIGH);
-    }
-    else
-    {
-      digitalWrite(led3, LOW);
-    }
-    if (ledArray[3])
-    {
-      digitalWrite(led4, HIGH);
-    }
-    else
-    {
-      digitalWrite(led4, LOW);
-    }
-    if (rfidEnable)
-    {
-      if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
-      {
-        return;
-      }
-      else
-      {
-
-        Serial.print(F("RFID:"));
-        for (byte i = 0; i < mfrc522.uid.size; i++)
-        {
-          Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
-          Serial.print(mfrc522.uid.uidByte[i], HEX);
-        }
-        Serial.println();
-      }
+      ledArray[1] = 0;
+      ledArray[2] = 0;
+      ledArray[3] = 0;
+      ledArray[0] = 0;
     }
   }
+
+  if (locked)
+  {
+    doorLockPosition = LOCKED_POSITION;
+    doorLock.write(doorLockPosition);
+  }
+  else
+  {
+    doorLockPosition = UNLOCKED_POSITION;
+    doorLock.write(doorLockPosition);
+  }
+
+  if (ledArray[0])
+  {
+    digitalWrite(led1, HIGH);
+  }
+  else
+  {
+    digitalWrite(led1, LOW);
+  }
+  if (ledArray[1])
+  {
+    digitalWrite(led2, HIGH);
+  }
+  else
+  {
+    digitalWrite(led2, LOW);
+  }
+  if (ledArray[2])
+  {
+    digitalWrite(led3, HIGH);
+  }
+  else
+  {
+    digitalWrite(led3, LOW);
+  }
+  if (ledArray[3])
+  {
+    digitalWrite(led4, HIGH);
+  }
+  else
+  {
+    digitalWrite(led4, LOW);
+  }
+  if (rfidEnable)
+  {
+    if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
+    {
+      return;
+    }
+    else
+    {
+
+      Serial.print(F("RFID:"));
+      for (byte i = 0; i < mfrc522.uid.size; i++)
+      {
+        Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
+        Serial.print(mfrc522.uid.uidByte[i], HEX);
+      }
+      Serial.println();
+    }
+  }
+}
