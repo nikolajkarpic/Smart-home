@@ -1,0 +1,18 @@
+{
+    "Don Nico": {
+        "PIN": "9034",
+        "RFID": "BA919D07"
+    },
+    "Dalinar Kholin": {
+        "PIN": "1234",
+        "RFID": null
+    },
+    "Brat moj napaceni Kaladin Olujnoblagosloveni": {
+        "PIN": "1111",
+        "RFID": "2901B06E"
+    },
+    "Superior Glocktor": {
+        "PIN": "AAAA",
+        "RFID": null
+    }
+}

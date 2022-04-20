@@ -45,6 +45,8 @@ char pass[] = "0000";                     // holds pin
 int keyNum = 0;                           // nuber of times keys have been pressed
 unsigned char pinEnable = 1;
 
+char customKey; // keypad value
+
 // define the cymbols on the buttons of the keypads
 char hexaKeys[ROWS][COLS] = {
     {'1', '2', '3', 'A'},
@@ -126,14 +128,12 @@ void loop()
   }
 
   // Working kaypad logic.
-  if (pinEnable)
-  {
-    char customKey = customKeypad.getKey();
-  }
 
-  if (customKey)
+  customKey = customKeypad.getKey();
+
+  if (customKey && pinEnable)
   {
-    Serial.println(customKey);
+    // Serial.println(customKey);
 
     if (passEntered)
     {
@@ -235,6 +235,7 @@ void loop()
         Serial.print(mfrc522.uid.uidByte[i], HEX);
       }
       Serial.println();
+      rfidEnable = 0;
     }
   }
 }

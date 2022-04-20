@@ -1,8 +1,9 @@
 from re import L
+from time import sleep
 from urllib import request
 import serial
 import requests
-from setuptools import Command
+import json
 
 
 def splitStringToDict(sensorData):
@@ -31,10 +32,11 @@ def splitStringToDict(sensorData):
 def doorLogic(newData, oldData):
     if(newData == oldData):
         return
-    comand = ""
+    command = ""
     value = ""
-    [Command, value] = newData.split(:)
-    print(Command, value)
+    print(newData)
+    [command, value] = newData[:-2].split(':')
+    return(command, value)
 
 
 def readFromFIle():
@@ -49,7 +51,7 @@ def readFromFIle():
 
 
 def main():
-    serialPort = serial.Serial('COM4', baudrate=9600)
+    serialPort = serial.Serial('COM5', baudrate=9600)
     serialString = ""  # Used to hold data coming over UART
     data = ""
     dataFromHttp = ""
@@ -58,7 +60,7 @@ def main():
     newData = ""
     oldData = ""
     while 1:
-        readFromFIle()
+        # readFromFIle()
         # Wait until there is data waiting in the serial buffer
         if serialPort.in_waiting > 0:
 
@@ -73,21 +75,43 @@ def main():
                 newData = serialString.decode("Ascii")
             except:
                 pass
-            if(newData[0] == 'D'):
-                [digitalPinsDict, analoguePinsDict] = splitStringToDict(
-                    newData)
-
-            # afted you're done testing enable this, so that the server doesnt send unnesccecary data
-            # if(newData == oldData):
-            #     continue
-            print(digitalPinsDict)
-            print(analoguePinsDict)
             try:
                 print(serialString.decode("Ascii"))
 
             except:
                 pass
-        serialPort.write('A'.encode())
+            # if(newData[0] == 'D'):
+            #     [digitalPinsDict, analoguePinsDict] = splitStringToDict(
+            #         newData)
+            try:
+                [com, val] = doorLogic(newData, oldData)
+            except:
+                pass
+            jsonFile = open(r"C:\FTN\Diplomsi rad\misc\users.json")
+            jsonData = json.load(jsonFile)
+            for key, value in jsonData.items():
+                if (str(val) == value['PIN']):
+                    waitNumBytes = serialPort.write(b'ledoff')
+                    print(waitNumBytes)
+                    print(serialPort.in_waiting)
+                    for x in range(0, waitNumBytes * 8):
+                        sleep(0.02)
+                    print(key + " je usao u kucu!")
+                    serialPort.flush()
+                    waitNumBytes = serialPort.write(b'unlock')
+                    for x in range(0, waitNumBytes * 8):
+                        sleep(0.02)
+                # sleep(0.2)
+                    val = 0
+
+            jsonFile.close()
+            # afted you're done testing enable this, so that the server doesnt send unnesccecary data
+            # if(newData == oldData):
+            #     continue
+            # print(digitalPinsDict)
+            # print(analoguePinsDict)
+
+        # serialPort.write('A'.encode())
 
         oldData = newData
 
