@@ -4,6 +4,14 @@ from urllib import request
 import serial
 import requests
 import json
+from datetime import datetime
+
+
+def chehkTime(timeT):
+    nowT = datetime.now().second
+    # print(nowT, " ", timeT)
+    if (abs(int(nowT) - int(timeT)) >= 5):
+        return True
 
 
 def splitStringToDict(sensorData):
@@ -51,6 +59,7 @@ def readFromFIle():
 
 
 def main():
+    nowT = datetime.now().second
     serialPort = serial.Serial('COM5', baudrate=9600)
     serialString = ""  # Used to hold data coming over UART
     data = ""
@@ -59,6 +68,8 @@ def main():
     analoguePinsDict = {}
     newData = ""
     oldData = ""
+    com = ""
+    val = ""
     while 1:
         # readFromFIle()
         # Wait until there is data waiting in the serial buffer
@@ -90,17 +101,18 @@ def main():
             jsonFile = open(r"C:\FTN\Diplomsi rad\misc\users.json")
             jsonData = json.load(jsonFile)
             for key, value in jsonData.items():
-                if (str(val) == value['PIN']):
-                    waitNumBytes = serialPort.write(b'ledoff')
+                if (str(val) == value['PIN'] or str(val) == value['RFID']):
+                    waitNumBytes = serialPort.write(b'L0')
                     print(waitNumBytes)
                     print(serialPort.in_waiting)
                     for x in range(0, waitNumBytes * 8):
                         sleep(0.02)
                     print(key + " je usao u kucu!")
                     serialPort.flush()
-                    waitNumBytes = serialPort.write(b'unlock')
+                    waitNumBytes = serialPort.write(b'U')
                     for x in range(0, waitNumBytes * 8):
                         sleep(0.02)
+                    serialPort.flush()
                 # sleep(0.2)
                     val = 0
 
@@ -112,6 +124,13 @@ def main():
             # print(analoguePinsDict)
 
         # serialPort.write('A'.encode())
+        if(chehkTime(nowT)):
+            waitNumBytes = serialPort.write(b'E')
+            for x in range(0, waitNumBytes * 8):
+                sleep(0.02)
+            serialPort.flush()
+            nowT = datetime.now().second
+            print("eneblovao sve ulaze")
 
         oldData = newData
 

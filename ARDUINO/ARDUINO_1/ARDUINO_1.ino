@@ -84,45 +84,51 @@ void loop()
   if (Serial.available() > 0)
   {
     serialCommand = Serial.readString();
-    if (serialCommand == "unlock")
+    if (serialCommand == "U")
     {
       locked = 0;
       // Serial.println("otkljuco");
     }
-    if (serialCommand == "lock")
+    if (serialCommand == "L")
     {
       locked = 1;
       // Serial.println("zakljuco");
     }
-    if (serialCommand == "ledon")
+    if (serialCommand == "L1")
     {
 
       ledOn = 1;
-      Serial.println("LED ON");
     }
 
-    if (serialCommand == "ledoff")
+    if (serialCommand == "L0")
     {
       ledOn = 0;
       // Serial.println("LED OFF");
     }
-    if (serialCommand == "enRFID")
+    if (serialCommand == "R1")
     {
       rfidEnable = 1;
       // Serial.println("omogucio rfid");
     }
-    if (serialCommand == "disRFID")
+    if (serialCommand == "R0")
     {
       rfidEnable = 0;
       // Serial.println("onemogucio rfid");
     }
-    if (serialCommand == "enPIN")
+    if (serialCommand == "P1")
     {
       pinEnable = 1;
     }
-    if (serialCommand == "disPIN")
+    if (serialCommand == "P0")
     {
       pinEnable = 0;
+    }
+    if (serialCommand == "E")
+    {
+      pinEnable = 1;
+      rfidEnable = 1;
+      ledOn = 1;
+      locked = 1;
     }
     serialCommand = "";
   }
@@ -155,6 +161,7 @@ void loop()
     Serial.println(passCode);
     passCode = "PIN:";
     pinEnable = 0;
+    rfidEnable = 0;
     keyNum = 0;
   }
 
@@ -236,6 +243,7 @@ void loop()
       }
       Serial.println();
       rfidEnable = 0;
+      pinEnable = 0;
     }
   }
 }
