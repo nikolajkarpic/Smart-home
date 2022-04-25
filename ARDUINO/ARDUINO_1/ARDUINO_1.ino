@@ -66,6 +66,7 @@ unsigned char denied = 0;                 // when rfid or pin is invcalid
 unsigned char unlockLedEnable0 = 0;       // enables time for green led on || acepted pin/rfid
 unsigned char unlockLedEnable1 = 0;       // enables time for green led off || acepted pin/rfid
 unsigned char unlockLedEnable2 = 0;       // enables time for green led on || accepted pin/rfid
+unsigned char automaticLockEn = 0;       // enables automatic lock time
 String pass = "";                         // holds pin
 int keyNum = 0;                           // nuber of times keys have been pressed
 unsigned char pinEnable = 1;              // enables pin input
@@ -112,6 +113,9 @@ void loop()
       locked = 0;
       greenLedOn = 1;
       unlockLedEnable0 = 1;
+      automaticLockEn = 1;
+      pinEnable = 1;
+      rfidEnable = 1;
       lastTImeUnlocked = timeNow;
       lastTimeUnlockedLed0 = timeNow;
       lastTimeUnlockedLed1 = timeNow;
@@ -123,6 +127,8 @@ void loop()
       locked = 0;
       greenLedOn = 1;
       unlockLedEnable0 = 1;
+      pinEnable = 1;
+      rfidEnable = 1;
       lastTimeUnlockedLed0 = timeNow;
       lastTimeUnlockedLed1 = timeNow;
       lastTimeUnlockedLed2 = timeNow;
@@ -163,11 +169,13 @@ void loop()
     {
       pinEnable = 1;
       rfidEnable = 1;
-      locked = 1;
     }
     if (serialCommand == "D") // denied acces, turns on red led
     {
       denied = 1;
+      locked = 1;
+      pinEnable = 1;
+      rfidEnable = 1;
       lastTimeDenied = timeNow;
     }
     serialCommand = ""; // resets serial command
@@ -215,9 +223,10 @@ void loop()
     }
   }
 
-  if (timeNow - lastTImeUnlocked >= AUTOMATIC_LOCK_TIME)
+  if (automaticLockEn && timeNow - lastTImeUnlocked >= AUTOMATIC_LOCK_TIME)
   {
     locked = 1;
+    automaticLockEn = 0;
     // Serial.println(timeNow);
   }
 

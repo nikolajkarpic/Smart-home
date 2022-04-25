@@ -1,18 +1,47 @@
 {
     "Don Nico": {
         "PIN": "9034",
-        "RFID": "BA919D07"
+        "RFID": "BA919D07",
+        "ACCESS": true
     },
     "Dalinar Kholin": {
         "PIN": "1234",
-        "RFID": null
+        "RFID": null,
+        "ACCESS": true
     },
     "Brat moj napaceni Kaladin Olujnoblagosloveni": {
         "PIN": "1111",
-        "RFID": "2901B06E"
+        "RFID": "2901B06E",
+        "ACCESS": true
     },
     "Superior Glocktor": {
         "PIN": "AAAA",
-        "RFID": null
+        "RFID": null,
+        "ACCESS": true
+    },
+    "Odium": {
+        "PIN": "2222",
+        "RFID": null,
+        "ACCESS": false
+    },
+    "Pol Artreid": {
+        "PIN": "3333",
+        "RFID": null,
+        "ACCESS": false
+    },
+    "Dzejmi Lanister": {
+        "PIN": "5555",
+        "RFID": null,
+        "ACCESS": false
+    },
+    "Aragorn sin Aratornov": {
+        "PIN": "6666",
+        "RFID": null,
+        "ACCESS": true
+    },
+    "Galandrijela": {
+        "PIN": "7777",
+        "RFID": null,
+        "ACCESS": true
     }
 }

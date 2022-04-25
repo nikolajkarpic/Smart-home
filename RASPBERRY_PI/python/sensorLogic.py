@@ -70,6 +70,9 @@ def main():
     oldData = ""
     com = ""
     val = ""
+    accesAllowed = ""
+    user = ""
+    entryAtempted = False
     while 1:
         # readFromFIle()
         # Wait until there is data waiting in the serial buffer
@@ -101,20 +104,36 @@ def main():
             jsonFile = open(r"C:\FTN\Diplomsi rad\misc\users.json")
             jsonData = json.load(jsonFile)
             for key, value in jsonData.items():
-                if (str(val) == value['PIN'] or str(val) == value['RFID']):
-                    waitNumBytes = serialPort.write(b'L0')
-                    print(waitNumBytes)
-                    print(serialPort.in_waiting)
-                    for x in range(0, waitNumBytes * 8):
-                        sleep(0.02)
-                    print(key + " je usao u kucu!")
+                if ((com == "PIN" and str(val) == value['PIN']) or (com == "RFID" and str(val) == value['RFID'])):
+                    accesAllowed = value["ACCESS"]
+                    user = key
+
+                # sleep(0.2)
+                    val = 0
+
+            if(com == "PIN" or com == "RFID"):
+                if(accesAllowed):
+                    print(user + " je usao u kucu!")
                     serialPort.flush()
                     waitNumBytes = serialPort.write(b'U')
                     for x in range(0, waitNumBytes * 8):
                         sleep(0.02)
                     serialPort.flush()
-                # sleep(0.2)
-                    val = 0
+
+                else:
+                    if (user == ""):
+                        print("Neko je pokusao da udje u kucu!")
+                    else:
+                        print(user + " je pokusao da udje u kucu!")
+                    serialPort.flush()
+                    waitNumBytes = serialPort.write(b'D')
+                    for x in range(0, waitNumBytes * 8):
+                        sleep(0.02)
+                    serialPort.flush()
+            accesAllowed = False
+            com = ""
+            val = ""
+            user = ""
 
             jsonFile.close()
             # afted you're done testing enable this, so that the server doesnt send unnesccecary data
@@ -124,13 +143,13 @@ def main():
             # print(analoguePinsDict)
 
         # serialPort.write('A'.encode())
-        if(chehkTime(nowT)):
-            waitNumBytes = serialPort.write(b'E')
-            for x in range(0, waitNumBytes * 8):
-                sleep(0.02)
-            serialPort.flush()
-            nowT = datetime.now().second
-            print("eneblovao sve ulaze")
+        # if(chehkTime(nowT)):
+        #     waitNumBytes = serialPort.write(b'E')
+        #     for x in range(0, waitNumBytes * 8):
+        #         sleep(0.02)
+        #     serialPort.flush()
+        #     nowT = datetime.now().second
+        #     print("eneblovao sve ulaze")
 
         oldData = newData
 
