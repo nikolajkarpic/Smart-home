@@ -75,6 +75,7 @@ void setup()
 
 void loop()
 {
+    serialInControls();
 
     if (millis() - lastMillis >= SENSOR_PERIOD)
     {
@@ -83,8 +84,7 @@ void loop()
         sensorToSerial((int)temperature, (int)humidity);
     }
 
-    serialInControls();
-    controlAC();
+        controlAC();
     lightControl();
 
     if (dht11.read(pinDHT11, &temperature, &humidity, data))
@@ -176,29 +176,17 @@ void serialInControls()
         serialCommand = Serial.readString();
         if (serialCommand.charAt(0) == 'C') // cooling control
         {
-            if (serialCommand.charAt(1) == "0")
-            {
-                coolOn = 0;
-            }
-            else
-            {
-                coolOn = 1;
-                serialCommand.remove(0, 2);
-                coolProcent = serialCommand.toFloat();
-            }
+            heatOn = 0;
+            coolOn = 1;
+            serialCommand.remove(0, 2);
+            coolProcent = serialCommand.toFloat();
         }
         if (serialCommand.charAt(0) == 'H') // heating control
         {
-            if (serialCommand.charAt(1) == "0")
-            {
-                heatOn = 0;
-            }
-            else
-            {
-                heatOn = 1;
-                serialCommand.remove(0, 2);
-                heatProcent = serialCommand.toFloat();
-            }
+            coolOn = 0;
+            heatOn = 1;
+            serialCommand.remove(0, 2);
+            heatProcent = serialCommand.toFloat();
         }
         if (serialCommand == "Q1")
         {

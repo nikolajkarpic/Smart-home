@@ -18,23 +18,13 @@ def chehkTime(time, period):
 
 def splitStringToDict(sensorData):
     sensorData = sensorData[:-2]
-    sensorData = sensorData.split('|')
-    digitalPins = sensorData[0].split()
-    analoguePins = sensorData[1].split()
-    digitalPinsDict = {}
-    analoguePinsDict = {}
-    print(digitalPins)
-    print(analoguePins)
-
-    for data in digitalPins:
+    sensorData = sensorData.split()
+    dataDict = {}
+    for data in sensorData:
         [key, value] = data.split(':')
-        digitalPinsDict[key] = (int(value))
+        dataDict[key] = value
 
-    for data in analoguePins:
-        [key, value] = data.split(':')
-        analoguePinsDict[key] = (float(value))
-
-    return [digitalPinsDict, analoguePinsDict]
+    return dataDict
 
 # doesnt work as of now... implement class bassed structure.
 
@@ -42,14 +32,22 @@ def splitStringToDict(sensorData):
 def calculateTempPWM(currentTemp, preferredTemp):  # returns [coolPWM, heatPWM]
 
     if(currentTemp - preferredTemp >= 5):
-        return["heat", 1]
-    if(currentTemp - preferredTemp <= -5):
+        print("cool ", "current: ", currentTemp,
+              "prefered temp: ", preferredTemp)
         return["cool", 1]
+    if(currentTemp - preferredTemp <= -5):
+        print("heat ", "current: ", currentTemp,
+              "prefered temp: ", preferredTemp)
+        return["heat", 1]
     value = (currentTemp - preferredTemp)/5
     if (value >= 0):
-        return["heat", abs(value)]
-    else:
+        print("cool ", value, "current: ", currentTemp,
+              "prefered temp: ", preferredTemp)
         return["cool", abs(value)]
+    else:
+        print("heat ", value, "current: ", currentTemp,
+              "prefered temp: ", preferredTemp)
+        return["heat", abs(value)]
 
 
 def doorLogic(newData):
@@ -60,29 +58,42 @@ def doorLogic(newData):
 
 
 def main():
-    currentTime = datetime.now().second
+    currentTime = datetime.now().second  # gets current time
+    # time when the check commands was last called
     lastTimeCheckCommands = datetime.now().second
-    serialPortDoor = serial.Serial('COM5', baudrate=9600)
+    # opens serial port for door arduino
+    serialPortDoor = serial.Serial('COM8', baudrate=9600)
+    # opens serial port for sensors arduino
     serialPortSensors = serial.Serial('COM3', baudrate=9600)
-    serialStringSensor = ""
+    serialStringSensor = ""  # used to hold data from sensors
     serialString = ""  # Used to hold data coming over UART
-    data = ""
+    sensorData = {}  # dict that holds data from sensors
     dataFromHttp = ""
     digitalPinsDict = {}
     analoguePinsDict = {}
     commands = ""
     newData = ""
     oldData = ""
+    currentTemperature = 0
+    preferredTemperature = 27
+    currentHumidity = 0
+    currentMQ7 = 0
+    currentPIR = 0
+    alert = False  # MQ7 > MQ7 trigger ? true : false
+    MQ7_TRIGGER_VALUE = 100  # MQ7 sensor for carbom monoxide alert value
+    # should be sent with requst.post()
+
+    # calls to get initial commands... should be request.get(api) to get data from api
     jsonCommandFile = open(
         r"C:\FTN\Diplomsi rad\misc\commandRecieved.json")
     jsonCommandData = json.load(jsonCommandFile)
     jsonCommandFile.close()
-    com = ""
-    val = ""
-    newCommandRecieved = False
-    roomCommands = []
-    accesAllowed = ""
-    user = ""
+    com = ""  # command from door, either pin or rfid
+    val = ""  # pin/rfid code
+    newCommandRecieved = False  # checks if new comands are recieved
+    roomCommands = []  # list that holds commands from rooms
+    accesAllowed = ""  # true/false value wether user is allowed to enter house
+    user = ""  # user whose pin or rifd is entered
     while 1:
         currentTime = datetime.now().second
         if(chehkTime(lastTimeCheckCommands, 1)):
@@ -126,6 +137,43 @@ def main():
             jsonCommandData = newjsonCommandData
             lastTimeCheckCommands = datetime.now().second
 
+        if serialPortSensors.in_waiting > 0:
+            serialStringSensor = serialPortSensors.readline()
+            try:
+                dataSensor = serialStringSensor.decode("Ascii")
+                sensorData = splitStringToDict(dataSensor)
+                currentPIR = int(sensorData["PIR"])
+                currentMQ7 = float(sensorData["MQ7"])
+                currentHumidity = int(sensorData["H"])
+                currentTemperature = int(sensorData["T"])
+
+                if((currentTemperature != preferredTemperature)):
+                    oldTemp = currentTemperature
+                    [tempCommand, PWM] = (calculateTempPWM(
+                        currentTemperature, preferredTemperature))
+                    if(tempCommand == 'cool'):
+                        tmp = "C:"+str(PWM)
+                        # serialPortSensors.flush()
+                        waitNumBytes = serialPortSensors.write(tmp.encode())
+                        for x in range(0, waitNumBytes * 8):
+                            sleep(0.02)
+                        serialPortSensors.flush()
+                        sleep(0.17)
+                    else:
+                        tmp = "H:"+str(PWM)
+                        # serialPortSensors.flush()
+                        waitNumBytes = serialPortSensors.write(tmp.encode())
+                        for x in range(0, waitNumBytes * 8):
+                            sleep(0.02)
+
+                        serialPortSensors.flush()
+                        sleep(0.17)
+
+                with open(r"C:\FTN\Diplomsi rad\misc\sensorData.json", 'w') as sensorDataJSON:
+                    json.dump(sensorData, sensorDataJSON)
+                print(sensorData)
+            except:
+                pass
         if(newCommandRecieved):
             if(doorLocked != None):
                 if(doorLocked):
@@ -141,7 +189,9 @@ def main():
                         sleep(0.02)
                     serialPortDoor.flush()
             if(newTemp != None):
-                [tempCommand, PWM] = (calculateTempPWM(27, newTemp))
+                preferredTemperature = newTemp
+                [tempCommand, PWM] = (calculateTempPWM(
+                    currentTemperature, preferredTemperature))
                 if(tempCommand == 'cool'):
                     tmp = "C:"+str(PWM)
                     serialPortSensors.flush()
@@ -150,15 +200,7 @@ def main():
                         sleep(0.02)
                     serialPortSensors.flush()
                     sleep(0.1)
-                    waitNumBytes = serialPortSensors.write(b'H0')
-                    for x in range(0, waitNumBytes * 8):
-                        sleep(0.02)
-                    serialPortSensors.flush()
                 else:
-                    waitNumBytes = serialPortSensors.write(b'C0')
-                    for x in range(0, waitNumBytes * 8):
-                        sleep(0.02)
-                    serialPortSensors.flush()
                     tmp = "H:"+str(PWM)
                     serialPortSensors.flush()
                     waitNumBytes = serialPortSensors.write(tmp.encode())
@@ -167,16 +209,18 @@ def main():
                     serialPortSensors.flush()
                     sleep(0.17)
 
-            newCommandRecieved = False
             # first you have to fix second arduino
+            # as of now its hard coded... can be changed to use a list to iterate through it.
             if(roomCommands != []):
                 for [room, command] in roomCommands:
                     if(room == "BED_ROOM_0"):
                         if (command.get("LIGHTS")):
+                            print("AVTLAA")
                             serialPortSensors.flush()
-                            waitNumBytes = serialPortSensors.write(b'Q1')
+                            waitNumBytes = serialPortSensors.write(b"Q1")
                             for x in range(0, waitNumBytes * 8):
                                 sleep(0.02)
+                            sleep(0.2)
                             serialPortSensors.flush()
                         else:
                             serialPortSensors.flush()
@@ -184,53 +228,46 @@ def main():
                             for x in range(0, waitNumBytes * 8):
                                 sleep(0.02)
                             serialPortSensors.flush()
-                if(room == "BED_ROOM_1"):
-                    if (command.get("LIGHTS")):
-                        serialPortSensors.flush()
-                        waitNumBytes = serialPortSensors.write(b'W1')
-                        for x in range(0, waitNumBytes * 8):
-                            sleep(0.02)
-                        serialPortSensors.flush()
-                    else:
-                        serialPortSensors.flush()
-                        waitNumBytes = serialPortSensors.write(b'W0')
-                        for x in range(0, waitNumBytes * 8):
-                            sleep(0.02)
-                        serialPortSensors.flush()
-                if(room == "LIVING_ROOM"):
-                    if (command.get("LIGHTS")):
-                        serialPortSensors.flush()
-                        waitNumBytes = serialPortSensors.write(b'E1')
-                        for x in range(0, waitNumBytes * 8):
-                            sleep(0.02)
-                        serialPortSensors.flush()
-                    else:
-                        serialPortSensors.flush()
-                        waitNumBytes = serialPortSensors.write(b'E0')
-                        for x in range(0, waitNumBytes * 8):
-                            sleep(0.02)
-                        serialPortSensors.flush()
-                if(room == "KITCHEN"):
-                    if (command.get("LIGHTS")):
-                        serialPortSensors.flush()
-                        waitNumBytes = serialPortSensors.write(b'R1')
-                        for x in range(0, waitNumBytes * 8):
-                            sleep(0.02)
-                        serialPortSensors.flush()
-                    else:
-                        serialPortSensors.flush()
-                        waitNumBytes = serialPortSensors.write(b'R0')
-                        for x in range(0, waitNumBytes * 8):
-                            sleep(0.02)
-                        serialPortSensors.flush()
-
-        if serialPortSensors.in_waiting > 0:
-            serialStringSensor = serialPortSensors.readline()
-            try:
-                dataSensor = serialStringSensor.decode("Ascii")
-                print(dataSensor)
-            except:
-                pass
+                    if(room == "BED_ROOM_1"):
+                        if (command.get("LIGHTS")):
+                            serialPortSensors.flush()
+                            waitNumBytes = serialPortSensors.write(b'W1')
+                            for x in range(0, waitNumBytes * 8):
+                                sleep(0.02)
+                            serialPortSensors.flush()
+                        else:
+                            serialPortSensors.flush()
+                            waitNumBytes = serialPortSensors.write(b'W0')
+                            for x in range(0, waitNumBytes * 8):
+                                sleep(0.02)
+                            serialPortSensors.flush()
+                    if(room == "LIVING_ROOM"):
+                        if (command.get("LIGHTS")):
+                            serialPortSensors.flush()
+                            waitNumBytes = serialPortSensors.write(b'E1')
+                            for x in range(0, waitNumBytes * 8):
+                                sleep(0.02)
+                            serialPortSensors.flush()
+                        else:
+                            serialPortSensors.flush()
+                            waitNumBytes = serialPortSensors.write(b'E0')
+                            for x in range(0, waitNumBytes * 8):
+                                sleep(0.02)
+                            serialPortSensors.flush()
+                    if(room == "KITCHEN"):
+                        if (command.get("LIGHTS")):
+                            serialPortSensors.flush()
+                            waitNumBytes = serialPortSensors.write(b'R1')
+                            for x in range(0, waitNumBytes * 8):
+                                sleep(0.02)
+                            serialPortSensors.flush()
+                        else:
+                            serialPortSensors.flush()
+                            waitNumBytes = serialPortSensors.write(b'R0')
+                            for x in range(0, waitNumBytes * 8):
+                                sleep(0.02)
+                            serialPortSensors.flush()
+            newCommandRecieved = False
 
         # Wait until there is data waiting in the serial buffer
         if serialPortDoor.in_waiting > 0:
