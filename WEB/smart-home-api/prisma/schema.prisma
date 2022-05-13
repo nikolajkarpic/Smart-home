@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name                 String
+  lights               Boolean    @default(false)
+  currentTemperature   Int?
+  prefferedTemperature Int?       @default(27)
+  mq7                  Int?
+  pir                  Boolean?
+  SmartHome            SmartHome? @relation(fields: [smartHomeId], references: [id])
+  smartHomeId          Int?
+}
+
+model Occupant {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  pin         String
+  RFID        String?
+  SmartHome   SmartHome? @relation(fields: [smartHomeId], references: [id])
+  smartHomeId Int?
+}
+
+model SmartHome {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name    String
+  address String?
+  zipCode String?
+
+  currentTemperature   Int
+  prefferedTemperature Int        @default(27)
+  occupants            Occupant[]
+  rooms                Room[]
+}

@@ -9,27 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SensorDataService = void 0;
+exports.PrismaService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma/prisma.service");
-let SensorDataService = class SensorDataService {
-    constructor(prisma) {
-        this.prisma = prisma;
-    }
-    setData() {
-        console.log("henlo");
-        return "Henlo";
+const client_1 = require("@prisma/client");
+let PrismaService = class PrismaService extends client_1.PrismaClient {
+    constructor() {
+        super({
+            datasources: {
+                db: {
+                    url: "postgresql://postgres:123@localhost:5434/nest?schema=public"
+                }
+            }
+        });
     }
 };
-__decorate([
-    (0, common_1.Post)('setData'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], SensorDataService.prototype, "setData", null);
-SensorDataService = __decorate([
+PrismaService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], SensorDataService);
-exports.SensorDataService = SensorDataService;
-//# sourceMappingURL=sensorData.service.js.map
+    __metadata("design:paramtypes", [])
+], PrismaService);
+exports.PrismaService = PrismaService;
+//# sourceMappingURL=prisma.service.js.map
