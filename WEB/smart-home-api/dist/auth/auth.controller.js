@@ -12,29 +12,37 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SensorData = void 0;
+exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
-const sensorData_service_1 = require("./sensorData.service");
 const dto_1 = require("../dto");
-let SensorData = class SensorData {
-    constructor(sensorDataService) {
-        this.sensorDataService = sensorDataService;
+const auth_service_1 = require("./auth.service");
+let AuthController = class AuthController {
+    constructor(authService) {
+        this.authService = authService;
     }
-    setData(dto) {
-        console.log({ dto });
-        return this.sensorDataService.setData(dto);
+    signup(dto) {
+        return this.authService.signup(dto);
+    }
+    signin() {
+        return this.authService.signin();
     }
 };
 __decorate([
-    (0, common_1.Post)('setData'),
+    (0, common_1.Post)('signup'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.SensorDataDto]),
+    __metadata("design:paramtypes", [dto_1.authDto]),
     __metadata("design:returntype", void 0)
-], SensorData.prototype, "setData", null);
-SensorData = __decorate([
-    (0, common_1.Controller)('sensorData'),
-    __metadata("design:paramtypes", [sensorData_service_1.SensorDataService])
-], SensorData);
-exports.SensorData = SensorData;
-//# sourceMappingURL=sensorData.controller.js.map
+], AuthController.prototype, "signup", null);
+__decorate([
+    (0, common_1.Post)('signin'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "signin", null);
+AuthController = __decorate([
+    (0, common_1.Controller)('auth'),
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
+], AuthController);
+exports.AuthController = AuthController;
+//# sourceMappingURL=auth.controller.js.map

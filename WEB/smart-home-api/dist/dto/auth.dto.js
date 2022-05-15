@@ -9,26 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SensorDataService = void 0;
-const common_1 = require("@nestjs/common");
-const dto_1 = require("../dto");
-const prisma_service_1 = require("../prisma/prisma.service");
-let SensorDataService = class SensorDataService {
-    constructor(prisma) {
-        this.prisma = prisma;
-    }
-    setData(dto) {
-    }
-};
+exports.authDto = void 0;
+const class_validator_1 = require("class-validator");
+class authDto {
+}
 __decorate([
-    (0, common_1.Post)('setData'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.SensorDataDto]),
-    __metadata("design:returntype", void 0)
-], SensorDataService.prototype, "setData", null);
-SensorDataService = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], SensorDataService);
-exports.SensorDataService = SensorDataService;
-//# sourceMappingURL=sensorData.service.js.map
+    (0, class_validator_1.IsEmail)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], authDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], authDto.prototype, "pass", void 0);
+exports.authDto = authDto;
+//# sourceMappingURL=auth.dto.js.map
