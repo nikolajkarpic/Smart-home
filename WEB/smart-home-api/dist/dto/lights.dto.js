@@ -9,19 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.thermostatDto = void 0;
+exports.LightsDto = void 0;
 const class_validator_1 = require("class-validator");
-class thermostatDto {
+class LightsDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], thermostatDto.prototype, "prefTemp", void 0);
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], LightsDto.prototype, "bedRoom", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], thermostatDto.prototype, "currentTemp", void 0);
-exports.thermostatDto = thermostatDto;
-//# sourceMappingURL=thermostat.dto.js.map
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], LightsDto.prototype, "bedRoom1", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], LightsDto.prototype, "kitchen", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], LightsDto.prototype, "livingRoom", void 0);
+exports.LightsDto = LightsDto;
+//# sourceMappingURL=lights.dto.js.map

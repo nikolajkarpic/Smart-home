@@ -12,29 +12,27 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SensorDataController = void 0;
+exports.ThermostatService = void 0;
 const common_1 = require("@nestjs/common");
-const sensorData_service_1 = require("./sensorData.service");
 const dto_1 = require("../dto");
-let SensorDataController = class SensorDataController {
-    constructor(sensorDataService) {
-        this.sensorDataService = sensorDataService;
+const prisma_service_1 = require("../prisma/prisma.service");
+let ThermostatService = class ThermostatService {
+    constructor(prismaService) {
+        this.prismaService = prismaService;
     }
-    setData(dto) {
-        console.log({ dto });
-        return this.sensorDataService.setData(dto);
+    async setPrefTemp(dto) {
+        return { "dto": dto.currentTemp };
     }
 };
 __decorate([
-    (0, common_1.Post)('setData'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.SensorDataDto]),
-    __metadata("design:returntype", void 0)
-], SensorDataController.prototype, "setData", null);
-SensorDataController = __decorate([
-    (0, common_1.Controller)('sensorData'),
-    __metadata("design:paramtypes", [sensorData_service_1.SensorDataService])
-], SensorDataController);
-exports.SensorDataController = SensorDataController;
-//# sourceMappingURL=sensorData.controller.js.map
+    __metadata("design:paramtypes", [dto_1.thermostatDto]),
+    __metadata("design:returntype", Promise)
+], ThermostatService.prototype, "setPrefTemp", null);
+ThermostatService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+], ThermostatService);
+exports.ThermostatService = ThermostatService;
+//# sourceMappingURL=thermostat.service.js.map

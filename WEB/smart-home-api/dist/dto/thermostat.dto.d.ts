@@ -1,4 +1,4 @@
-export interface thermostatDto {
-    prefTemp: number;
-    currentTemp: number;
+export declare class thermostatDto {
+    prefTemp: Number;
+    currentTemp: Number;
 }

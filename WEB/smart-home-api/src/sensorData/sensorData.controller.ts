@@ -4,7 +4,7 @@ import { SmartHome, Room, Occupant } from "@prisma/client";
 import { SensorDataDto } from "src/dto";
 
 @Controller('sensorData')
-export class SensorData {
+export class SensorDataController {
     constructor(private sensorDataService: SensorDataService) { }
 
     @Post('setData')

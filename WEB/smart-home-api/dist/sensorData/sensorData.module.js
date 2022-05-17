@@ -16,7 +16,7 @@ let SensorDataModule = class SensorDataModule {
 SensorDataModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule],
-        controllers: [sensorData_controller_1.SensorData],
+        controllers: [sensorData_controller_1.SensorDataController],
         providers: [sensorData_service_1.SensorDataService]
     })
 ], SensorDataModule);

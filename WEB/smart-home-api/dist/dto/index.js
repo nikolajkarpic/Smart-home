@@ -17,4 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./senorData.dto"), exports);
 __exportStar(require("./thermostat.dto"), exports);
 __exportStar(require("./auth.dto"), exports);
+__exportStar(require("./lights.dto"), exports);
 //# sourceMappingURL=index.js.map

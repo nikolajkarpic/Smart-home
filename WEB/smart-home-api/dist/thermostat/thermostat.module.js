@@ -6,18 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.ThermostatModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_module_1 = require("./auth/auth.module");
-const prisma_module_1 = require("./prisma/prisma.module");
-const sensorData_module_1 = require("./sensorData/sensorData.module");
-const thermostat_module_1 = require("./thermostat/thermostat.module");
-let AppModule = class AppModule {
+const thermostat_controller_1 = require("./thermostat.controller");
+const thermostat_service_1 = require("./thermostat.service");
+let ThermostatModule = class ThermostatModule {
 };
-AppModule = __decorate([
+ThermostatModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, sensorData_module_1.SensorDataModule, prisma_module_1.PrismaModule, thermostat_module_1.ThermostatModule]
+        providers: [thermostat_service_1.ThermostatService],
+        controllers: [thermostat_controller_1.ThermostatController]
     })
-], AppModule);
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+], ThermostatModule);
+exports.ThermostatModule = ThermostatModule;
+//# sourceMappingURL=thermostat.module.js.map

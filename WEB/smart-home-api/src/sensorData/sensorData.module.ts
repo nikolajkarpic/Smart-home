@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { PrismaModule } from "src/prisma/prisma.module";
-import { SensorData } from "./sensorData.controller";
+import { SensorDataController } from "./sensorData.controller";
 import { SensorDataService } from "./sensorData.service";
 
 @Module({
     imports: [PrismaModule],
-    controllers: [SensorData],
+    controllers: [SensorDataController],
     providers: [SensorDataService]
 })
 export class SensorDataModule { }
