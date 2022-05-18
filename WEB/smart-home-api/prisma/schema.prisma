@@ -15,7 +15,7 @@ model Room {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name                 String
+  name                 String     @unique
   lights               Boolean    @default(false)
   currentTemperature   Int?
   prefferedTemperature Int?       @default(27)
@@ -31,8 +31,8 @@ model Occupant {
   updatedAt DateTime @updatedAt
 
   name        String
-  pin         String
-  RFID        String?
+  pin         String     @unique
+  RFID        String?    @unique
   SmartHome   SmartHome? @relation(fields: [smartHomeId], references: [id])
   smartHomeId Int?
 }
