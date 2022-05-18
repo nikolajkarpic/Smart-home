@@ -1,4 +1,4 @@
-import { authDto } from "src/dto";
+import { authDto } from "../dto/";
 import { AuthService } from "./auth.service";
 export declare class AuthController {
     private authService;

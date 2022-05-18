@@ -1,6 +1,6 @@
 import { Body, Injectable } from "@nestjs/common";
-import { thermostatDto } from "src/dto";
-import { PrismaService } from "src/prisma/prisma.service";
+import { thermostatDto } from "../dto";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class ThermostatService {

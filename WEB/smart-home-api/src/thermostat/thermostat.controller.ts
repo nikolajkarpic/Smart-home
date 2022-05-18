@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { thermostatDto } from "src/dto";
+import { thermostatDto } from "../dto";
 import { ThermostatService } from "./thermostat.service";
 
 @Controller('thermostat')

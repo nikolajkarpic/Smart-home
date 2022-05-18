@@ -1,6 +1,6 @@
 import { Body, Injectable, Post } from "@nestjs/common";
-import { SensorDataDto } from "src/dto";
-import { PrismaService } from "src/prisma/prisma.service";
+import { SensorDataDto } from "../dto";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class SensorDataService {

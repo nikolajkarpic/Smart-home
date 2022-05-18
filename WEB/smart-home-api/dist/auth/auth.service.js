@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const dto_1 = require("../dto");
+const dto_1 = require("../dto/");
 const prisma_service_1 = require("../prisma/prisma.service");
 const argon = require("argon2");
 const runtime_1 = require("@prisma/client/runtime");

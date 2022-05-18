@@ -1,7 +1,7 @@
 import { Controller, Post, Body, ParseIntPipe } from "@nestjs/common";
 import { SensorDataService } from "./sensorData.service";
 import { SmartHome, Room, Occupant } from "@prisma/client";
-import { SensorDataDto } from "src/dto";
+import { SensorDataDto } from "../dto";
 
 @Controller('sensorData')
 export class SensorDataController {
