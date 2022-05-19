@@ -1,5 +1,5 @@
-import { SensorDataDto } from "src/dto";
-import { PrismaService } from "src/prisma/prisma.service";
+import { SensorDataDto } from "../dto";
+import { PrismaService } from "../prisma/prisma.service";
 export declare class SensorDataService {
     private prisma;
     constructor(prisma: PrismaService);

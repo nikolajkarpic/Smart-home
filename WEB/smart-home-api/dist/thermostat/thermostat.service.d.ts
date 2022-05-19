@@ -1,5 +1,5 @@
-import { thermostatDto } from "src/dto";
-import { PrismaService } from "src/prisma/prisma.service";
+import { thermostatDto } from "../dto";
+import { PrismaService } from "../prisma/prisma.service";
 export declare class ThermostatService {
     private prismaService;
     constructor(prismaService: PrismaService);

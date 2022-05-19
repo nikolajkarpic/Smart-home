@@ -1,5 +1,5 @@
 import { SensorDataService } from "./sensorData.service";
-import { SensorDataDto } from "src/dto";
+import { SensorDataDto } from "../dto";
 export declare class SensorDataController {
     private sensorDataService;
     constructor(sensorDataService: SensorDataService);

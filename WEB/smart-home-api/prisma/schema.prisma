@@ -50,6 +50,8 @@ model SmartHome {
   prefferedTemperature Int        @default(27)
   occupants            Occupant[]
   rooms                Room[]
+  User                 User?      @relation(fields: [userId], references: [id])
+  userId               Int?
 }
 
 model User {
@@ -60,5 +62,7 @@ model User {
   hash      String
   firstName String?
   lastName  String?
+
+  smartHomes SmartHome[]
 
 }

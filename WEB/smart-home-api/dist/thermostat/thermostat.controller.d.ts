@@ -1,4 +1,4 @@
-import { thermostatDto } from "src/dto";
+import { thermostatDto } from "../dto";
 import { ThermostatService } from "./thermostat.service";
 export declare class ThermostatController {
     private thermostatService;
