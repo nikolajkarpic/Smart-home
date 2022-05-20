@@ -4,3 +4,5 @@ skice/smartHome1.JPG
 .vscode/c_cpp_properties.json
 .vscode/arduino.json
 RASPBERRY_PI/python/timeChech.py
+WEB\smart-home-api\node_modules
+WEB\smart-home-api\dist
