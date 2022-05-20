@@ -5,6 +5,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { SensorDataModule } from './sensorData/sensorData.module';
 import { ThermostatModule } from './thermostat/thermostat.module';
 import { UserModule } from './user/user.module';
+import { SmartHomeModule } from './smartHome/smartHome.module';
+import { OccupantModule } from './occupant/occupant.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { UserModule } from './user/user.module';
     SensorDataModule,
     PrismaModule,
     ThermostatModule,
-    UserModule]
+    UserModule,
+    SmartHomeModule,
+    OccupantModule]
 })
 export class AppModule { }

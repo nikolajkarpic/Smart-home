@@ -9,5 +9,5 @@ export class authDto {
     @IsNotEmpty()
     pass: string
 
-
+    // add option for longer sighin for rasp to be able to acces this data for longer periods of time.
 }

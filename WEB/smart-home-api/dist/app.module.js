@@ -14,6 +14,8 @@ const prisma_module_1 = require("./prisma/prisma.module");
 const sensorData_module_1 = require("./sensorData/sensorData.module");
 const thermostat_module_1 = require("./thermostat/thermostat.module");
 const user_module_1 = require("./user/user.module");
+const smartHome_module_1 = require("./smartHome/smartHome.module");
+const occupant_module_1 = require("./occupant/occupant.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -26,7 +28,9 @@ AppModule = __decorate([
             sensorData_module_1.SensorDataModule,
             prisma_module_1.PrismaModule,
             thermostat_module_1.ThermostatModule,
-            user_module_1.UserModule
+            user_module_1.UserModule,
+            smartHome_module_1.SmartHomeModule,
+            occupant_module_1.OccupantModule
         ]
     })
 ], AppModule);

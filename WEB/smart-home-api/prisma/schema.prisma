@@ -46,7 +46,7 @@ model SmartHome {
   address String?
   zipCode String?
 
-  currentTemperature   Int
+  currentTemperature   Int?
   prefferedTemperature Int        @default(27)
   occupants            Occupant[]
   rooms                Room[]
