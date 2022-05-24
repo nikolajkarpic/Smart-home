@@ -19,9 +19,12 @@ const guard_1 = require("../auth/guard");
 const dto_1 = require("./dto");
 const create_smartHome_dto_1 = require("./dto/create-smartHome.dto");
 const smartHome_service_1 = require("./smartHome.service");
+const occupant_service_1 = require("../occupant/occupant.service");
+const dto_2 = require("../occupant/dto");
 let SmartHomeController = class SmartHomeController {
-    constructor(smartHomeService) {
+    constructor(smartHomeService, occupantService) {
         this.smartHomeService = smartHomeService;
+        this.occupantService = occupantService;
     }
     createSmartHome(dto, userId) {
         return this.smartHomeService.createSmartHome(userId, dto);
@@ -37,6 +40,21 @@ let SmartHomeController = class SmartHomeController {
     }
     deleteSmartHomeById(userId, smartHomeId) {
         return this.smartHomeService.deleteSmartHomeById(userId, smartHomeId);
+    }
+    createNewOccupant(userId, smartHomeId, dto) {
+        return this.occupantService.createOccupant(userId, smartHomeId, dto);
+    }
+    getOccupants(userId, smartHomeId) {
+        return this.occupantService.getOccupants(userId, smartHomeId);
+    }
+    getOccupantById(userId, smartHomeId, occupantId) {
+        return this.occupantService.getOccupantById(userId, smartHomeId, occupantId);
+    }
+    editOccupantById(userId, smartHomeId, occupantId, dto) {
+        return this.occupantService.editOccupantById(userId, smartHomeId, occupantId, dto);
+    }
+    deleteOccupantById(userId, smartHomeId, occupantId) {
+        return this.occupantService.deleteOccupantById(userId, smartHomeId, occupantId);
     }
 };
 __decorate([
@@ -79,10 +97,56 @@ __decorate([
     __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", void 0)
 ], SmartHomeController.prototype, "deleteSmartHomeById", null);
+__decorate([
+    (0, common_1.Post)(':smartHomeId/occupant/create'),
+    __param(0, (0, decorator_1.GetUser)('id')),
+    __param(1, (0, common_1.Param)('smartHomeId', common_1.ParseIntPipe)),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, dto_2.CreateOccupantDto]),
+    __metadata("design:returntype", void 0)
+], SmartHomeController.prototype, "createNewOccupant", null);
+__decorate([
+    (0, common_1.Get)(':smartHomeId/occupants'),
+    __param(0, (0, decorator_1.GetUser)('id')),
+    __param(1, (0, common_1.Param)('smartHomeId', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:returntype", void 0)
+], SmartHomeController.prototype, "getOccupants", null);
+__decorate([
+    (0, common_1.Get)(":smartHomeId/occupant/:occupantId"),
+    __param(0, (0, decorator_1.GetUser)('id')),
+    __param(1, (0, common_1.Param)('smartHomeId', common_1.ParseIntPipe)),
+    __param(2, (0, common_1.Param)('occupantId', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, Number]),
+    __metadata("design:returntype", void 0)
+], SmartHomeController.prototype, "getOccupantById", null);
+__decorate([
+    (0, common_1.Patch)(':smartHomeId/occupant/:occupantId'),
+    __param(0, (0, decorator_1.GetUser)('id')),
+    __param(1, (0, common_1.Param)('smartHomeId', common_1.ParseIntPipe)),
+    __param(2, (0, common_1.Param)('occupantId', common_1.ParseIntPipe)),
+    __param(3, (0, common_1.Body)('dto')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, Number, dto_2.EditOccupantDto]),
+    __metadata("design:returntype", void 0)
+], SmartHomeController.prototype, "editOccupantById", null);
+__decorate([
+    (0, common_1.HttpCode)(204),
+    (0, common_1.Delete)(":smartHomeId/occupant/:occupantId"),
+    __param(0, (0, decorator_1.GetUser)('id')),
+    __param(1, (0, common_1.Param)('smartHomeId', common_1.ParseIntPipe)),
+    __param(2, (0, common_1.Param)('occupantId', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, Number]),
+    __metadata("design:returntype", void 0)
+], SmartHomeController.prototype, "deleteOccupantById", null);
 SmartHomeController = __decorate([
     (0, common_1.Controller)('smartHome'),
     (0, common_1.UseGuards)(guard_1.JwtGuard),
-    __metadata("design:paramtypes", [smartHome_service_1.SmartHomeService])
+    __metadata("design:paramtypes", [smartHome_service_1.SmartHomeService, occupant_service_1.OccupantService])
 ], SmartHomeController);
 exports.SmartHomeController = SmartHomeController;
 //# sourceMappingURL=smartHome.controller.js.map

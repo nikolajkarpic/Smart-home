@@ -1,4 +1,6 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { readFile } from "fs";
 import { PrismaService } from "../prisma/prisma.service";
 import { EditOccupantDto } from "./dto";
 import { CreateOccupantDto } from "./dto";
@@ -7,22 +9,36 @@ import { CreateOccupantDto } from "./dto";
 export class OccupantService {
     constructor(private prisma: PrismaService) { }
 
-    async createOccupant(userId: number, dto: CreateOccupantDto) {
+    async createOccupant(userId: number, smarthomeId: number, dto: CreateOccupantDto) {
+        console.log(smarthomeId)
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
-                id: dto.smartHomeId,
+                id: smarthomeId,
             },
         });
-
+        console.log(smartHome)
         if (!smartHome || userId != smartHome.userId) {
             throw new ForbiddenException('Access to resource denied');
         }
-        const occupant = await this.prisma.occupant.create({
-            data: {
-                ...dto
-            },
-        });
-        return;
+        try {
+
+            const occupant = await this.prisma.occupant.create({
+                data: {
+                    smartHomeId: smarthomeId,
+                    ...dto
+                },
+            });
+            return occupant;
+        }
+        catch (error) {
+            if (error instanceof PrismaClientKnownRequestError) {
+                if (error.code === 'P2002') {
+                    throw new ForbiddenException("Credential taken")
+                }
+            }
+            throw error;
+        }
+
     };
 
     async getOccupants(userId: number, smartHomeId: number) {
@@ -75,9 +91,22 @@ export class OccupantService {
         if (!smartHome || userId != smartHome.userId || !occupant || smartHomeId != occupant.smartHomeId) {
             throw new ForbiddenException('Access to resource denied');
         }
+        const occupantByRfid = await this.prisma.occupant.findFirst({
+            where: {
+                RFID: dto.RFID
+            }
+        });
+        const occupantByPin = await this.prisma.occupant.findFirst({
+            where: {
+                pin: dto.pin
+            }
+        });
 
+        if (occupantByPin || occupantByRfid) {
+            throw new ForbiddenException("Credential taken");
+        }
 
-        return this.prisma.occupant.update({
+        const updatedOccupant = this.prisma.occupant.update({
             where: {
                 id: occupantId,
             },
@@ -85,6 +114,7 @@ export class OccupantService {
                 ...dto
             }
         });
+        return updatedOccupant;
     }
     async deleteOccupantById(userId: number, smartHomeId: number, occupantId: number) {
         const smartHome = await this.prisma.smartHome.findFirst({

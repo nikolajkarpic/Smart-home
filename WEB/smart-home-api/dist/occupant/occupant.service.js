@@ -11,24 +11,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OccupantService = void 0;
 const common_1 = require("@nestjs/common");
+const runtime_1 = require("@prisma/client/runtime");
 const prisma_service_1 = require("../prisma/prisma.service");
 let OccupantService = class OccupantService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async createOccupant(userId, dto) {
+    async createOccupant(userId, smarthomeId, dto) {
+        console.log(smarthomeId);
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
-                id: dto.smartHomeId,
+                id: smarthomeId,
             },
         });
+        console.log(smartHome);
         if (!smartHome || userId != smartHome.userId) {
             throw new common_1.ForbiddenException('Access to resource denied');
         }
-        const occupant = await this.prisma.occupant.create({
-            data: Object.assign({}, dto),
-        });
-        return;
+        try {
+            const occupant = await this.prisma.occupant.create({
+                data: Object.assign({ smartHomeId: smarthomeId }, dto),
+            });
+            return occupant;
+        }
+        catch (error) {
+            if (error instanceof runtime_1.PrismaClientKnownRequestError) {
+                if (error.code === 'P2002') {
+                    throw new common_1.ForbiddenException("Credential taken");
+                }
+            }
+            throw error;
+        }
     }
     ;
     async getOccupants(userId, smartHomeId) {
@@ -77,12 +90,26 @@ let OccupantService = class OccupantService {
         if (!smartHome || userId != smartHome.userId || !occupant || smartHomeId != occupant.smartHomeId) {
             throw new common_1.ForbiddenException('Access to resource denied');
         }
-        return this.prisma.occupant.update({
+        const occupantByRfid = await this.prisma.occupant.findFirst({
+            where: {
+                RFID: dto.RFID
+            }
+        });
+        const occupantByPin = await this.prisma.occupant.findFirst({
+            where: {
+                pin: dto.pin
+            }
+        });
+        if (occupantByPin || occupantByRfid) {
+            throw new common_1.ForbiddenException("Credential taken");
+        }
+        const updatedOccupant = this.prisma.occupant.update({
             where: {
                 id: occupantId,
             },
             data: Object.assign({}, dto)
         });
+        return updatedOccupant;
     }
     async deleteOccupantById(userId, smartHomeId, occupantId) {
         const smartHome = await this.prisma.smartHome.findFirst({

@@ -4,7 +4,7 @@ import { CreateOccupantDto } from "./dto";
 export declare class OccupantService {
     private prisma;
     constructor(prisma: PrismaService);
-    createOccupant(userId: number, dto: CreateOccupantDto): Promise<void>;
+    createOccupant(userId: number, smarthomeId: number, dto: CreateOccupantDto): Promise<import(".prisma/client").Occupant>;
     getOccupants(userId: number, smartHomeId: number): Promise<import(".prisma/client").Occupant[]>;
     getOccupantById(userId: number, smartHomeId: number, occupantId: number): Promise<import(".prisma/client").Occupant>;
     editOccupantById(userId: number, smartHomeId: number, occupantId: number, dto: EditOccupantDto): Promise<import(".prisma/client").Occupant>;

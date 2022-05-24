@@ -3,6 +3,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { EditSmartHomeDto, thermostatDto } from "./dto";
 import { CreateSmartHomeDto } from "./dto/create-smartHome.dto";
 
+
 @Injectable()
 export class SmartHomeService {
     constructor(private prisma: PrismaService) { }
