@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
 import { GetUser } from "../auth/decorator";
 import { JwtGuard } from "../auth/guard";
 import { EditSmartHomeDto } from "./dto";
@@ -7,11 +7,14 @@ import { thermostatDto } from "./dto/";
 import { SmartHomeService } from "./smartHome.service";
 import { OccupantService } from "../occupant/occupant.service";
 import { CreateOccupantDto, EditOccupantDto } from "../occupant/dto";
+import { RoomService } from "../room/room.service";
+import { CreateRoomDto } from "src/room/dto/create-room.dto";
+import { EditRoomDto } from "src/room/dto";
 
 @Controller('smartHome')
 @UseGuards(JwtGuard)
 export class SmartHomeController {
-    constructor(private smartHomeService: SmartHomeService, private occupantService: OccupantService) { }
+    constructor(private smartHomeService: SmartHomeService, private occupantService: OccupantService, private roomService: RoomService) { }
     @Post('create')
     createSmartHome(@Body() dto: CreateSmartHomeDto, @GetUser('id') userId: number) {
         return this.smartHomeService.createSmartHome(userId, dto);
@@ -31,7 +34,7 @@ export class SmartHomeController {
     editSmartHomeById(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number, @Body() dto: EditSmartHomeDto) {
         return this.smartHomeService.editSmartHomeById(userId, smartHomeId, dto);
     }
-
+    @HttpCode(204)
     @Delete(':id')
     deleteSmartHomeById(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number) {
         return this.smartHomeService.deleteSmartHomeById(userId, smartHomeId);
@@ -62,4 +65,25 @@ export class SmartHomeController {
     deleteOccupantById(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number, @Param('occupantId', ParseIntPipe) occupantId: number) {
         return this.occupantService.deleteOccupantById(userId, smartHomeId, occupantId);
     }
+
+    @Get(':smartHomeId/rooms')
+    getRooms(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number) {
+        return this.roomService.getRooms(userId, smartHomeId);
+    }
+
+    @Post(':smartHomeId/room/create')
+    createRoom(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number, @Body() dto: CreateRoomDto) {
+        return this.roomService.createRoom(userId, smartHomeId, dto);
+    }
+
+    @Get(":smartHomeId/room/:roomId")
+    getRoomById(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number, @Param('roomId', ParseIntPipe) roomId: number) {
+        return this.roomService.getOccupantById(userId, smartHomeId, roomId);
+    }
+
+    @Patch(":smartHomeId/room/:roomId")
+    editRoomById(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number, @Param('roomId', ParseIntPipe) roomId: number, @Body() dto: EditRoomDto) {
+        return this.roomService.editRoomById(userId, smartHomeId, roomId, dto);
+    }
+
 }

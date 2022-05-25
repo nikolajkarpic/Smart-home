@@ -9,15 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OccupantService = void 0;
+exports.RoomService = void 0;
 const common_1 = require("@nestjs/common");
 const runtime_1 = require("@prisma/client/runtime");
 const prisma_service_1 = require("../prisma/prisma.service");
-let OccupantService = class OccupantService {
+let RoomService = class RoomService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async createOccupant(userId, smarthomeId, dto) {
+    async getRooms(userId, smartHomeId) {
+        const smartHome = await this.prisma.smartHome.findFirst({
+            where: {
+                id: smartHomeId,
+            },
+        });
+        if (!smartHome || userId != smartHome.userId) {
+            throw new common_1.ForbiddenException('Access to resource denied');
+        }
+        const rooms = await this.prisma.room.findMany({
+            where: {
+                smartHomeId: smartHomeId
+            }
+        });
+        return rooms;
+    }
+    async createRoom(userId, smarthomeId, dto) {
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
                 id: smarthomeId,
@@ -27,10 +43,10 @@ let OccupantService = class OccupantService {
             throw new common_1.ForbiddenException('Access to resource denied');
         }
         try {
-            const occupant = await this.prisma.occupant.create({
+            const room = await this.prisma.room.create({
                 data: Object.assign({ smartHomeId: smarthomeId }, dto),
             });
-            return occupant;
+            return room;
         }
         catch (error) {
             if (error instanceof runtime_1.PrismaClientKnownRequestError) {
@@ -42,97 +58,56 @@ let OccupantService = class OccupantService {
         }
     }
     ;
-    async getOccupants(userId, smartHomeId) {
+    async getOccupantById(userId, smartHomeId, roomId) {
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
                 id: smartHomeId,
             },
         });
-        if (!smartHome || userId != smartHome.userId) {
-            throw new common_1.ForbiddenException('Access to resource denied');
-        }
-        const occupants = await this.prisma.occupant.findMany({
+        const room = await this.prisma.room.findFirst({
             where: {
-                smartHomeId: smartHomeId
+                id: roomId
             }
         });
-        return occupants;
+        if (!smartHome || userId != smartHome.userId || !room || smartHomeId != room.smartHomeId) {
+            throw new common_1.ForbiddenException('Access to resource denied');
+        }
+        return room;
     }
-    async getOccupantById(userId, smartHomeId, occupantId) {
+    async editRoomById(userId, smartHomeId, roomId, dto) {
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
                 id: smartHomeId,
             },
         });
-        const occupant = await this.prisma.occupant.findFirst({
+        const room = await this.prisma.room.findFirst({
             where: {
-                id: occupantId
+                id: roomId
             }
         });
-        if (!smartHome || userId != smartHome.userId || !occupant || smartHomeId != occupant.smartHomeId) {
+        if (!smartHome || userId != smartHome.userId || !room || smartHomeId != room.smartHomeId) {
             throw new common_1.ForbiddenException('Access to resource denied');
         }
-        return occupant;
-    }
-    async editOccupantById(userId, smartHomeId, occupantId, dto) {
-        const smartHome = await this.prisma.smartHome.findFirst({
+        const roomByName = await this.prisma.room.findFirst({
             where: {
-                id: smartHomeId,
-            },
-        });
-        const occupant = await this.prisma.occupant.findFirst({
-            where: {
-                id: occupantId
+                name: dto.name
             }
         });
-        if (!smartHome || userId != smartHome.userId || !occupant || smartHomeId != occupant.smartHomeId) {
-            throw new common_1.ForbiddenException('Access to resource denied');
-        }
-        const occupantByRfid = await this.prisma.occupant.findFirst({
-            where: {
-                RFID: dto.RFID
-            }
-        });
-        const occupantByPin = await this.prisma.occupant.findFirst({
-            where: {
-                pin: dto.pin
-            }
-        });
-        if (occupantByPin || occupantByRfid) {
+        if (roomByName && dto.name) {
             throw new common_1.ForbiddenException("Credential taken");
         }
-        const updatedOccupant = this.prisma.occupant.update({
+        const updatedRoom = this.prisma.room.update({
             where: {
-                id: occupantId,
+                id: roomId,
             },
             data: Object.assign({}, dto)
         });
-        return updatedOccupant;
-    }
-    async deleteOccupantById(userId, smartHomeId, occupantId) {
-        const smartHome = await this.prisma.smartHome.findFirst({
-            where: {
-                id: smartHomeId,
-            },
-        });
-        const occupant = await this.prisma.occupant.findFirst({
-            where: {
-                id: occupantId
-            }
-        });
-        if (!smartHome || userId != smartHome.userId || !occupant || smartHomeId != occupant.smartHomeId) {
-            throw new common_1.ForbiddenException('Access to resource denied');
-        }
-        await this.prisma.occupant.delete({
-            where: {
-                id: occupantId,
-            }
-        });
+        return updatedRoom;
     }
 };
-OccupantService = __decorate([
+RoomService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], OccupantService);
-exports.OccupantService = OccupantService;
-//# sourceMappingURL=occupant.service.js.map
+], RoomService);
+exports.RoomService = RoomService;
+//# sourceMappingURL=room.service.js.map

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SmartHomeModule = void 0;
 const common_1 = require("@nestjs/common");
+const room_service_1 = require("../room/room.service");
 const occupant_service_1 = require("../occupant/occupant.service");
 const smartHome_controller_1 = require("./smartHome.controller");
 const smartHome_service_1 = require("./smartHome.service");
@@ -15,7 +16,7 @@ let SmartHomeModule = class SmartHomeModule {
 };
 SmartHomeModule = __decorate([
     (0, common_1.Module)({
-        providers: [smartHome_service_1.SmartHomeService, occupant_service_1.OccupantService],
+        providers: [smartHome_service_1.SmartHomeService, occupant_service_1.OccupantService, room_service_1.RoomService],
         controllers: [smartHome_controller_1.SmartHomeController]
     })
 ], SmartHomeModule);

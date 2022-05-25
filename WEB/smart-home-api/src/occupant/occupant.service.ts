@@ -10,13 +10,11 @@ export class OccupantService {
     constructor(private prisma: PrismaService) { }
 
     async createOccupant(userId: number, smarthomeId: number, dto: CreateOccupantDto) {
-        console.log(smarthomeId)
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
                 id: smarthomeId,
             },
         });
-        console.log(smartHome)
         if (!smartHome || userId != smartHome.userId) {
             throw new ForbiddenException('Access to resource denied');
         }
