@@ -129,6 +129,41 @@ let OccupantService = class OccupantService {
             }
         });
     }
+    async allowOccupantToEnter(userId, smartHomeId, dto) {
+        const smartHome = await this.prisma.smartHome.findFirst({
+            where: {
+                id: smartHomeId,
+            },
+        });
+        const occupant = await this.prisma.occupant.findUnique({
+            where: Object.assign({}, dto)
+        });
+        if (!smartHome || userId != smartHome.userId) {
+            throw new common_1.ForbiddenException('Access to resource denied');
+        }
+        ;
+        if (!occupant) {
+            const data = {
+                name: "Unknown",
+                canEnterHouse: false
+            };
+            return data;
+        }
+        ;
+        if (!occupant.canEnterHouse) {
+            const data = {
+                name: occupant.name,
+                canEnterHouse: false
+            };
+            return data;
+        }
+        ;
+        const data = {
+            name: occupant.name,
+            canEnterHouse: true
+        };
+        return data;
+    }
 };
 OccupantService = __decorate([
     (0, common_1.Injectable)(),

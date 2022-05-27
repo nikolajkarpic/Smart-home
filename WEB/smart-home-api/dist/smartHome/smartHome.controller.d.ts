@@ -6,6 +6,7 @@ import { CreateOccupantDto, EditOccupantDto } from "../occupant/dto";
 import { RoomService } from "../room/room.service";
 import { CreateRoomDto } from "src/room/dto/create-room.dto";
 import { EditRoomDto } from "src/room/dto";
+import { DoorAccessDto } from "src/occupant/dto/doorAccess-occupant.dto";
 export declare class SmartHomeController {
     private smartHomeService;
     private occupantService;
@@ -13,6 +14,8 @@ export declare class SmartHomeController {
     constructor(smartHomeService: SmartHomeService, occupantService: OccupantService, roomService: RoomService);
     createSmartHome(dto: CreateSmartHomeDto, userId: number): Promise<import(".prisma/client").SmartHome>;
     getSmartHomes(userId: number): Promise<import(".prisma/client").SmartHome[]>;
+    canOccupantEnter(userId: number, smartHomeId: number, dto: DoorAccessDto): Promise<import("../occupant/interface/canEnterHome.interface").CanEnterHome>;
+    getCommandsById(userId: number, smartHomeId: number): Promise<import("./interface/command.interface").CommandInterface[]>;
     getSmartHomeById(userId: number, smartHomeId: number): Promise<import(".prisma/client").SmartHome>;
     editSmartHomeById(userId: number, smartHomeId: number, dto: EditSmartHomeDto): Promise<import(".prisma/client").SmartHome>;
     deleteSmartHomeById(userId: number, smartHomeId: number): Promise<import(".prisma/client").SmartHome>;

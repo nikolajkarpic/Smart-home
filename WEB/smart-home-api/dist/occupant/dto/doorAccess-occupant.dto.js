@@ -9,29 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EditOccupantDto = void 0;
+exports.DoorAccessDto = void 0;
 const class_validator_1 = require("class-validator");
-class EditOccupantDto {
+class DoorAccessDto {
 }
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], EditOccupantDto.prototype, "name", void 0);
+], DoorAccessDto.prototype, "pin", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], EditOccupantDto.prototype, "pin", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], EditOccupantDto.prototype, "RFID", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsBoolean)(),
-    __metadata("design:type", Boolean)
-], EditOccupantDto.prototype, "canEnterHouse", void 0);
-exports.EditOccupantDto = EditOccupantDto;
-//# sourceMappingURL=edit-occupant.dto.js.map
+], DoorAccessDto.prototype, "RFID", void 0);
+exports.DoorAccessDto = DoorAccessDto;
+//# sourceMappingURL=doorAccess-occupant.dto.js.map

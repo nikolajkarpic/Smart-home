@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsOptional, IsString } from "class-validator";
 
 export class EditOccupantDto {
     @IsOptional()
@@ -10,4 +10,7 @@ export class EditOccupantDto {
     @IsOptional()
     @IsString()
     RFID?: string
+    @IsOptional()
+    @IsBoolean()
+    canEnterHouse?: boolean
 }

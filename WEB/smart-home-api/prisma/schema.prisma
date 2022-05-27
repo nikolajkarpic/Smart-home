@@ -30,11 +30,12 @@ model Occupant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name        String
-  pin         String     @unique
-  RFID        String?    @unique
-  SmartHome   SmartHome? @relation(fields: [smartHomeId], references: [id])
-  smartHomeId Int?
+  name          String
+  canEnterHouse Boolean    @default(true)
+  pin           String     @unique
+  RFID          String?    @unique
+  SmartHome     SmartHome? @relation(fields: [smartHomeId], references: [id])
+  smartHomeId   Int?
 }
 
 model SmartHome {
@@ -45,6 +46,8 @@ model SmartHome {
   name    String
   address String?
   zipCode String?
+
+  commands String? @default("")
 
   currentTemperature   Int?
   prefferedTemperature Int        @default(27)

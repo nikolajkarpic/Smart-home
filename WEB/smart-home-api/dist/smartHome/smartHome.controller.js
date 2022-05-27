@@ -24,6 +24,7 @@ const dto_2 = require("../occupant/dto");
 const room_service_1 = require("../room/room.service");
 const create_room_dto_1 = require("../room/dto/create-room.dto");
 const dto_3 = require("../room/dto");
+const doorAccess_occupant_dto_1 = require("../occupant/dto/doorAccess-occupant.dto");
 let SmartHomeController = class SmartHomeController {
     constructor(smartHomeService, occupantService, roomService) {
         this.smartHomeService = smartHomeService;
@@ -35,6 +36,12 @@ let SmartHomeController = class SmartHomeController {
     }
     getSmartHomes(userId) {
         return this.smartHomeService.getSmartHomes(userId);
+    }
+    canOccupantEnter(userId, smartHomeId, dto) {
+        return this.occupantService.allowOccupantToEnter(userId, smartHomeId, dto);
+    }
+    getCommandsById(userId, smartHomeId) {
+        return this.smartHomeService.getCommands(userId, smartHomeId);
     }
     getSmartHomeById(userId, smartHomeId) {
         return this.smartHomeService.getSmartHomeById(userId, smartHomeId);
@@ -88,6 +95,23 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], SmartHomeController.prototype, "getSmartHomes", null);
+__decorate([
+    (0, common_1.Post)(':id/door'),
+    __param(0, (0, decorator_1.GetUser)('id')),
+    __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, doorAccess_occupant_dto_1.DoorAccessDto]),
+    __metadata("design:returntype", void 0)
+], SmartHomeController.prototype, "canOccupantEnter", null);
+__decorate([
+    (0, common_1.Get)(':id/commands'),
+    __param(0, (0, decorator_1.GetUser)('id')),
+    __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:returntype", void 0)
+], SmartHomeController.prototype, "getCommandsById", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, decorator_1.GetUser)('id')),

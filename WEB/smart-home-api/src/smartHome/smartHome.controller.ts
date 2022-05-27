@@ -10,6 +10,8 @@ import { CreateOccupantDto, EditOccupantDto } from "../occupant/dto";
 import { RoomService } from "../room/room.service";
 import { CreateRoomDto } from "src/room/dto/create-room.dto";
 import { EditRoomDto } from "src/room/dto";
+import { DoorAccessDto } from "src/occupant/dto/doorAccess-occupant.dto";
+
 
 @Controller('smartHome')
 @UseGuards(JwtGuard)
@@ -20,11 +22,22 @@ export class SmartHomeController {
         return this.smartHomeService.createSmartHome(userId, dto);
     }
 
+
+
     @Get('')
     getSmartHomes(@GetUser('id') userId: number) {
         return this.smartHomeService.getSmartHomes(userId);
     }
 
+    @Post(':id/door')
+    canOccupantEnter(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number, @Body() dto: DoorAccessDto) {
+        return this.occupantService.allowOccupantToEnter(userId, smartHomeId, dto);
+    }
+
+    @Get(':id/commands')
+    getCommandsById(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number) {
+        return this.smartHomeService.getCommands(userId, smartHomeId);
+    }
     @Get(':id')
     getSmartHomeById(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number) {
         return this.smartHomeService.getSmartHomeById(userId, smartHomeId);

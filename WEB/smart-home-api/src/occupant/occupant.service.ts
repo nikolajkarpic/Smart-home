@@ -1,9 +1,10 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { readFile } from "fs";
 import { PrismaService } from "../prisma/prisma.service";
 import { EditOccupantDto } from "./dto";
 import { CreateOccupantDto } from "./dto";
+import { DoorAccessDto } from "./dto/doorAccess-occupant.dto";
+import { CanEnterHome } from "./interface/canEnterHome.interface";
 
 @Injectable()
 export class OccupantService {
@@ -134,5 +135,44 @@ export class OccupantService {
                 id: occupantId,
             }
         });
+    }
+
+    async allowOccupantToEnter(userId: number, smartHomeId: number, dto: DoorAccessDto) {
+        const smartHome = await this.prisma.smartHome.findFirst({
+            where: {
+                id: smartHomeId,
+            },
+        });
+
+        const occupant = await this.prisma.occupant.findUnique({
+            where: {
+                ...dto
+            }
+        });
+
+        if (!smartHome || userId != smartHome.userId) {
+            throw new ForbiddenException('Access to resource denied');
+        };
+
+        if (!occupant) {
+            const data: CanEnterHome = {
+                name: "Unknown",
+                canEnterHouse: false
+            }
+            return data
+        };
+
+        if (!occupant.canEnterHouse) {
+            const data: CanEnterHome = {
+                name: occupant.name,
+                canEnterHouse: false
+            }
+            return data
+        };
+        const data: CanEnterHome = {
+            name: occupant.name,
+            canEnterHouse: true
+        };
+        return data;
     }
 }

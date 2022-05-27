@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { EditSmartHomeDto, thermostatDto } from "./dto";
 import { CreateSmartHomeDto } from "./dto/create-smartHome.dto";
+import { CommandInterface } from "./interface/command.interface";
 
 
 @Injectable()
@@ -47,13 +48,17 @@ export class SmartHomeService {
         if (!smartHome || userId != smartHome.userId) {
             throw new ForbiddenException('Access to resource denied')
         };
-
+        let command = smartHome.commands;
+        if (dto.prefferedTemperature != null && dto.prefferedTemperature != smartHome.prefferedTemperature) {
+            command = command + "home:prefferedTemperature:" + dto.prefferedTemperature + " "
+        }
         return await this.prisma.smartHome.update({
             where: {
                 id: smartHomeId,
             },
             data: {
-                ...dto
+                ...dto,
+                commands: command
             },
         });
     }
@@ -75,4 +80,28 @@ export class SmartHomeService {
             }
         })
     }
+
+    async getCommands(userId: number, smartHomeId: number) {
+        const smartHome = await this.prisma.smartHome.findUnique({
+            where: {
+                id: smartHomeId
+            }
+        });
+        let commands: Array<string> = smartHome.commands.split(" ");
+        let interfaceList: Array<CommandInterface> = [];
+        const commandsList = commands.slice(0, -1).forEach((command) => {
+            let commandSplitByColon = command.split(":");
+            let commandInterface: CommandInterface = {
+                place: commandSplitByColon[0],
+                command: commandSplitByColon[1],
+                value: commandSplitByColon[2]
+            }
+            interfaceList.push(commandInterface);
+        });
+
+        return interfaceList;
+
+    }
+
+
 }

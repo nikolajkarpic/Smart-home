@@ -49,11 +49,15 @@ let SmartHomeService = class SmartHomeService {
             throw new common_1.ForbiddenException('Access to resource denied');
         }
         ;
+        let command = smartHome.commands;
+        if (dto.prefferedTemperature != null && dto.prefferedTemperature != smartHome.prefferedTemperature) {
+            command = command + "home:prefferedTemperature:" + dto.prefferedTemperature + " ";
+        }
         return await this.prisma.smartHome.update({
             where: {
                 id: smartHomeId,
             },
-            data: Object.assign({}, dto),
+            data: Object.assign(Object.assign({}, dto), { commands: command }),
         });
     }
     async deleteSmartHomeById(userId, smartHomeId) {
@@ -71,6 +75,25 @@ let SmartHomeService = class SmartHomeService {
                 id: smartHomeId
             }
         });
+    }
+    async getCommands(userId, smartHomeId) {
+        const smartHome = await this.prisma.smartHome.findUnique({
+            where: {
+                id: smartHomeId
+            }
+        });
+        let commands = smartHome.commands.split(" ");
+        let interfaceList = [];
+        const commandsList = commands.slice(0, -1).forEach((command) => {
+            let commandSplitByColon = command.split(":");
+            let commandInterface = {
+                place: commandSplitByColon[0],
+                command: commandSplitByColon[1],
+                value: commandSplitByColon[2]
+            };
+            interfaceList.push(commandInterface);
+        });
+        return interfaceList;
     }
 };
 SmartHomeService = __decorate([

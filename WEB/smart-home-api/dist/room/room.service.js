@@ -96,6 +96,18 @@ let RoomService = class RoomService {
         if (roomByName && dto.name) {
             throw new common_1.ForbiddenException("Credential taken");
         }
+        if (dto.lights != null && dto.lights != room.lights) {
+            const previousCommands = smartHome.commands;
+            let command = previousCommands + room.name + ":lights:" + String(dto.lights) + " ";
+            await this.prisma.smartHome.update({
+                where: {
+                    id: smartHomeId
+                },
+                data: {
+                    commands: command
+                }
+            });
+        }
         const updatedRoom = this.prisma.room.update({
             where: {
                 id: roomId,
