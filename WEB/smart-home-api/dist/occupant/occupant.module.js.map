@@ -1,1 +1,0 @@
-{"version":3,"file":"occupant.module.js","sourceRoot":"","sources":["../../src/occupant/occupant.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,+DAA2D;AAC3D,yDAAqD;AAMrD,IAAa,cAAc,GAA3B,MAAa,cAAc;CAE1B,CAAA;AAFY,cAAc;IAJ1B,IAAA,eAAM,EAAC;QACJ,SAAS,EAAE,CAAC,kCAAe,CAAC;QAC5B,WAAW,EAAE,CAAC,wCAAkB,CAAC;KACpC,CAAC;GACW,cAAc,CAE1B;AAFY,wCAAc"}

@@ -1,1 +1,0 @@
-{"version":3,"file":"thermostat.module.js","sourceRoot":"","sources":["../../src/thermostat/thermostat.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,mEAA+D;AAC/D,6DAAyD;AAOzD,IAAa,gBAAgB,GAA7B,MAAa,gBAAgB;CAE5B,CAAA;AAFY,gBAAgB;IAL5B,IAAA,eAAM,EAAC;QACJ,SAAS,EAAE,CAAC,sCAAiB,CAAC;QAC9B,WAAW,EAAE,CAAC,4CAAoB,CAAC;KAEtC,CAAC;GACW,gBAAgB,CAE5B;AAFY,4CAAgB"}
