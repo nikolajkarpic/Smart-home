@@ -1,6 +1,8 @@
 # dependencies
 node_modules/
 
+dist/
+
 # IDE
 /.idea
 /.awcache
@@ -36,3 +38,4 @@ yarn-error.log
 build/config\.gypi
 # Keep environment variables out of version control
 .env
+.env.test

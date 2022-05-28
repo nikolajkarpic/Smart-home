@@ -1,3 +1,5 @@
 export * from './smart-home.dto'
 export * from './edit-smartHome.dto'
 export * from './thermostat.dto'
+export * from './create-smartHome.dto'
+export * from './door-command.dto'

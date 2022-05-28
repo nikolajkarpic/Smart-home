@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { EditSmartHomeDto, thermostatDto } from "./dto";
+import { DoorCommnad, EditSmartHomeDto, thermostatDto } from "./dto";
 import { CreateSmartHomeDto } from "./dto/create-smartHome.dto";
 import { CommandInterface } from "./interface/command.interface";
 
@@ -103,5 +103,27 @@ export class SmartHomeService {
 
     }
 
+    async updateDoorCommand(userId: number, smartHomeId, dto: DoorCommnad) {
+        const smartHome = await this.prisma.smartHome.findFirst({
+            where: {
+                id: smartHomeId
+            },
+        });
+        if (!smartHome || userId != smartHome.userId) {
+            throw new ForbiddenException('Access to resource denied')
+        };
 
+        const previousCommands = smartHome.commands;
+        let command = previousCommands + "home:door:" + dto.command + " ";
+
+        await this.prisma.smartHome.update({
+            where: {
+                id: smartHomeId
+            },
+            data: {
+                commands: command
+            }
+        })
+
+    }
 }

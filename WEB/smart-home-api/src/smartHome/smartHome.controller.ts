@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
 import { GetUser } from "../auth/decorator";
 import { JwtGuard } from "../auth/guard";
-import { EditSmartHomeDto } from "./dto";
+import { DoorCommnad, EditSmartHomeDto } from "./dto";
 import { CreateSmartHomeDto } from "./dto/create-smartHome.dto";
 import { thermostatDto } from "./dto/";
 import { SmartHomeService } from "./smartHome.service";
@@ -41,6 +41,11 @@ export class SmartHomeController {
     @Get(':id')
     getSmartHomeById(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number) {
         return this.smartHomeService.getSmartHomeById(userId, smartHomeId);
+    }
+
+    @Patch(':id/doorCommand')
+    updateDoorCommand(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number, dto: DoorCommnad) {
+        return this.smartHomeService.updateDoorCommand(userId, smartHomeId, dto);
     }
 
     @Patch(':id')
