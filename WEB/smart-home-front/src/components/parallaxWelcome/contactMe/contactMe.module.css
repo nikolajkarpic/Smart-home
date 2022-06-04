@@ -1,0 +1,42 @@
+.mainWindow {
+    width: 100vw;
+    height: 100vh;
+    background-color: #d4cccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    justify-items: center;
+    align-content: center;
+    justify-self: center;
+}
+
+.formWindow {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    /* margin-left: 10%; */
+    height: 600px;
+    width: 60%;
+}
+
+.messageBoxDiv {
+    align-self: center;
+    width: 80%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 800px) {
+    .formWindow {
+        height: 80%;
+        width: 80%;
+    }
+
+    .messageBoxDiv {
+
+        width: 60%;
+        height: 40%;
+
+    }
+}
