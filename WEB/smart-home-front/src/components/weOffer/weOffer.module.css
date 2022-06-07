@@ -1,0 +1,6 @@
+.mainWindow {
+    background-color: #5bd1d759;
+    display: flex;
+    flex-direction: column;
+
+}

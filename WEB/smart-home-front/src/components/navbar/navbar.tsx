@@ -3,7 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 export const Navbar = () => {
     return (
-        <AppBar position='fixed' style={{ overflow: 'hidden' }}>
+        <AppBar position='fixed' style={{ overflowX: 'hidden' }}>
             <Toolbar sx={{
                 justifyContent: 'space-between',
                 background: '#6699CC'

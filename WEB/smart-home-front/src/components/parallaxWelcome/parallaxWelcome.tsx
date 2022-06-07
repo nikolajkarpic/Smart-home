@@ -6,20 +6,20 @@ import { Background } from './background/background'
 import { Navbar } from '../navbar/navbar';
 import { BannerLayer } from 'react-scroll-parallax/dist/components/ParallaxBanner/types';
 import { ParallaxText } from './parallaxText/parallaxText';
+import { ContactMe } from './contactMe/contactMe';
 
 export const ParallaxWelcome: React.FC = () => {
 
 
     return (
-        <div style={{
-            backgroundColor: "#d4cccc"
-        }}>
-            <Navbar />
+        // <div style={{
+        //     backgroundColor: "#d4cccc",
+        //     height: '100vh',
+        //     width: '100vw'
+        // }}>
+        // <Navbar />
 
-            <ParallaxText />
-            <div style={{ 'height': '1000px' }}>
+        <ParallaxText />
 
-            </div>
-        </div >
     )
 }

@@ -1,0 +1,147 @@
+.backgroundLayerTriangle {
+    padding: 0;
+    margin-bottom: 0;
+    background: #5BD1D7;
+    filter: alpha(opacity=2);
+    width: 100%;
+    height: 60%;
+    background: radial-gradient(#5BD1D7 3%, #5bd1d759 60%);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.backgroundLayerRectTop {
+    padding: 0;
+    height: 5%;
+    width: 100vw;
+    background: #5bd1d759;
+    filter: alpha(opacity=2);
+}
+
+.backgroundLayerRectBottom {
+    padding: 0;
+    height: 35%;
+    width: 100%;
+    background-image: linear-gradient(#5bd1d759, #5BD1D7, #5bd1d759);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.backgroundLayerRectBottom p {
+    width: 60%;
+    margin: 0;
+    align-self: center;
+    color: #003B6D;
+    font-size: larger;
+}
+
+.mainWindowRow {
+    margin-top: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    padding-top: 0;
+    height: 35%;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.smartText {
+    height: 100%;
+    width: 60%;
+    margin-top: 0;
+    color: #003B6D;
+    text-shadow: -1px -1px 0 #d4cccc, 1px -1px 0 #d4cccc, -1px 1px 0 #d4cccc, 1px 1px 0 #d4cccc;
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 1000%;
+    text-align: right;
+}
+
+.wayToText {
+    font-family: 'Cedarville Cursive', cursive;
+    text-shadow: -2px -2px 0 #6699CC, 2px -2px 0 #6699CC, -2px 2px 0 #6699CC, 2px 2px 0 #6699CC;
+    color: #d4cccc;
+    font-size: 100px;
+    margin: 0;
+    vertical-align: text-bottom;
+    text-align: left;
+    width: 40%;
+    height: 100%;
+}
+
+.autoYourText {
+    text-align: right;
+    width: 60%;
+    font-family: 'Cedarville Cursive', cursive;
+    text-shadow: -2px -2px 0 #6699CC, 2px -2px 0 #6699CC, -2px 2px 0 #6699CC, 2px 2px 0 #6699CC;
+    color: #d4cccc;
+    font-size: 100px;
+}
+
+.homeText {
+    margin-top: 0;
+
+    width: 40%;
+    text-align: left;
+    color: white;
+    text-shadow: -1px -1px 0 #003B6D, 1px -1px 0 #003B6D, -1px 1px 0 #003B6D, 1px 1px 0 #003B6D;
+    font-weight: bold;
+    font-size: 150px;
+    letter-spacing: 4px;
+}
+
+@media (max-width: 1200px) {
+    .homeText {
+        font-size: 100px
+    }
+
+    .autoYourText {
+        font-size: 66px;
+    }
+
+    .smartText {
+        font-size: 100px;
+    }
+
+    .wayToText {
+        font-size: 66px;
+    }
+
+    .mainWindowRow {
+        height: 23%;
+    }
+}
+
+
+@media (max-width: 800px) {
+    .homeText {
+        font-size: 60px
+    }
+
+    .autoYourText {
+        font-size: 43px;
+    }
+
+    .smartText {
+        font-size: 60px;
+    }
+
+    .wayToText {
+        font-size: 43px;
+    }
+
+    .mainWindowRow {
+        height: 15%;
+    }
+}

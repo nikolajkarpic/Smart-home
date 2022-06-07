@@ -1,0 +1,24 @@
+{
+    "COMMANDS": {
+        "PREFERRED_TEMPERATURE": 29,
+        "ROOMS": {
+            "KITCHEN": {
+                "LIGHTS": true,
+                "PREFERRED_TEMPERATURE": null
+            },
+            "BED_ROOM_0": {
+                "LIGHTS": false,
+                "PREFERRED_TEMPERATURE": null
+            },
+            "LIVING_ROOM": {
+                "LIGHTS": true,
+                "PREFERRED_TEMPERATURE": 20
+            },
+            "BED_ROOM_1": {
+                "LIGHTS": true,
+                "PREFERRED_TEMPERATURE": null
+            }
+        },
+        "DOOR_LOCKED": true
+    }
+}

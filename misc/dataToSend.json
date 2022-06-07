@@ -1,0 +1,7 @@
+{
+    "DATA": {
+        "CURRENT_TEMPERATURE": 24,
+        "PIR": false,
+        "MQ7": 200
+    }
+}

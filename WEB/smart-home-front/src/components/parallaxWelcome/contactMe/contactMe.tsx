@@ -48,24 +48,24 @@ export const ContactMe: React.FC = (props) => {
 
     return (
         <div className={styles.mainWindow}>
-            <h3>Contact us</h3>
+            <h3 className={styles.contactUsText}>Contact us</h3>
             <form onSubmit={submitForm} className={styles.formWindow}>
                 <label style={{ 'textAlign': 'center' }}>name:</label>
-                <input style={{ 'width': '100%' }} onChange={updateFormControl}
+                <input onChange={updateFormControl}
                     type='text'
                     id='name'
                     value={formState.name} />
                 <label style={{ 'textAlign': 'center' }}>email:</label>
-                <input style={{ 'width': '100%' }} onChange={updateFormControl}
+                <input onChange={updateFormControl}
                     type='email'
-                    id='name'
+                    id='email'
                     value={formState.email} />
                 <div className={styles.messageBoxDiv}>
-                    <label style={{ 'textAlign': 'center' }}> messaage:</label>
+                    <label style={{ 'textAlign': 'center' }}> message:</label>
                     <textarea style={{ 'width': '100%', 'height': '80%' }} id="message"></textarea>
                 </div>
-                <button style={{ 'width': '30%', 'alignSelf': 'center' }} >
-                    submit
+                <button  >
+                    SUBMIT
                 </button>
             </form>
 

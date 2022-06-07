@@ -1,6 +1,4 @@
 .backgroundLayerTriangle {
-    background-color: yellow;
-    margin-top: 30%;
     padding: 0;
     margin-bottom: 0;
     background: #003B6D;
@@ -13,7 +11,7 @@
 .backgroundLayerRect {
     box-shadow: -1px -1px 0 #003B6D, 1px -1px 0 #003B6D, -1px 1px 0 #003B6D, 1px 1px 0 #003B6D;
     padding: 0;
-    height: 1000px;
-    width: 100%;
+    height: 500px;
+    width: 100vw;
     background-color: #003B6D;
 }

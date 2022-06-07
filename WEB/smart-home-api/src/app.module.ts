@@ -7,6 +7,7 @@ import { ThermostatModule } from './thermostat/thermostat.module';
 import { UserModule } from './user/user.module';
 import { SmartHomeModule } from './smartHome/smartHome.module';
 import { OccupantModule } from './occupant/occupant.module';
+import { ContactMeMailerModule } from './contactMeMailer/contactMeMailer.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { OccupantModule } from './occupant/occupant.module';
     ThermostatModule,
     UserModule,
     SmartHomeModule,
-    OccupantModule]
+    OccupantModule,
+    ContactMeMailerModule]
 })
 export class AppModule { }

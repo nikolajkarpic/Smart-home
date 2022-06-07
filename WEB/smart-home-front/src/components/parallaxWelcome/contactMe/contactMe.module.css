@@ -1,22 +1,66 @@
 .mainWindow {
+    overflow-x: hidden;
     width: 100vw;
     height: 100vh;
     background-color: #d4cccc;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     justify-items: center;
     align-content: center;
     justify-self: center;
+
+}
+
+.contactUsText {
+    vertical-align: top;
+    margin: 0;
+    color: #003B6D;
+    text-shadow: -1px -1px 0 #6699CC, 1px -1px 0 #6699CC, -1px 1px 0 #6699CC, 1px 1px 0 #6699CC;
+    padding-left: 20px;
+    padding-top: 20px;
+    font-size: 50px;
 }
 
 .formWindow {
+    background-color: #003a6dc7;
     display: flex;
     flex-direction: column;
     align-self: center;
+    justify-content: space-evenly;
     /* margin-left: 10%; */
-    height: 600px;
-    width: 60%;
+    height: 50%;
+    width: 700px;
+    border: 2px #6699CC;
+
+}
+
+.formWindow label {
+    font-size: xx-large;
+    color: #d4cccc;
+    text-shadow: -1px -1px 0 #6699CC, 1px -1px 0 #6699CC, -1px 1px 0 #6699CC, 1px 1px 0 #6699CC;
+}
+
+.formWindow input {
+    width: 80%;
+    align-self: center;
+}
+
+.formWindow button {
+    width: 30%;
+    height: 15%;
+    border: 0;
+    align-self: center;
+    background-color: transparent;
+    font-size: xx-large;
+    color: white;
+    /* text-shadow: -1px -1px 0 #d4cccc, 1px -1px 0 #d4cccc, -1px 1px 0 #d4cccc, 1px 1px 0 #d4cccc; */
+
+}
+
+.formWindow button:hover {
+    color: #6699CC;
+    background-color: #134b7c;
 }
 
 .messageBoxDiv {
@@ -27,9 +71,10 @@
     flex-direction: column;
 }
 
+
 @media (max-width: 800px) {
     .formWindow {
-        height: 80%;
+        height: 60%;
         width: 80%;
     }
 
