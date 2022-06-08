@@ -1,0 +1,8 @@
+.MainWindow {
+    width: 100vw;
+    height: 100vh;
+    background-color: #7e93b03d;
+    display: flex;
+    flex-direction: column;
+
+}

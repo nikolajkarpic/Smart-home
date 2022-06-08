@@ -1,7 +1,11 @@
 import { AppBar, Toolbar, IconButton, Typography, Stack, Button } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
 
-export const Navbar = () => {
+type Props = {
+    showSignIn: () => void;
+}
+
+export const Navbar: React.FC<Props> = ({ showSignIn }) => {
     return (
         <AppBar position='fixed' style={{ overflowX: 'hidden' }}>
             <Toolbar sx={{
@@ -31,7 +35,9 @@ export const Navbar = () => {
                     <Button color='inherit'>
                         About
                     </Button>
-                    <Button color='inherit'>
+                    <Button
+                        onClick={showSignIn}
+                        color='inherit'>
                         Sign in
                     </Button>
 

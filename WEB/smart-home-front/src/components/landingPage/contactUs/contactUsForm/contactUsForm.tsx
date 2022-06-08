@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import axios from "axios";
 import styles from './contactUsForm.module.css'
+import { StatusButtonSpinner } from './statusButtonSpinner/statusButtonSpinner';
 
 type FormState = {
     email: string;
@@ -10,12 +11,17 @@ type FormState = {
     city: string;
 }
 
+type ServiceMessage = {
+    class: string;
+    text: string;
+}
+
 
 export const ContactUsForm = () => {
 
 
-    const formId = '83zOEThu';
-    const formSparkUrl = `https://submit-form.com/${formId}`
+    const formId = 'contactMe';
+    const formSparkUrl = "http://localhost:3333/contactMe"
 
     const initialFormState = {
         email: '',
@@ -25,11 +31,17 @@ export const ContactUsForm = () => {
         city: ''
     }
     const [formState, setFormState] = useState<FormState>(initialFormState);
-
+    const [submitting, setSubmitting] = useState<boolean>(false);
+    const [msgToUser, setMsgToUser] = useState<ServiceMessage>();
+    const [buttnoInitial, setButtonInitial] = useState<boolean>(true)
+    const [susscess, setSusscess] = useState<boolean>(false)
 
     const submitForm = async (event: FormEvent) => {
+        setButtonInitial(false);
+        setSubmitting(true);
         event.preventDefault();
         await postSubmission();
+        setSubmitting(false);
     }
 
     const postSubmission = async () => {
@@ -38,9 +50,11 @@ export const ContactUsForm = () => {
         }
         try {
             const result = await axios.post(formSparkUrl, payload);
+            setSusscess(true);
             console.log(result);
         } catch (error) {
             console.log(error);
+            setSusscess(false);
         }
 
     }
@@ -59,7 +73,7 @@ export const ContactUsForm = () => {
                 <h2>Interesed in our services?</h2>
                 <p>Contact us to quickly automate your home. Ask us about anything, pricing, time to finish the home.</p>
             </div>
-            <form onSubmit={submitForm} className={styles.form}>
+            <form onSubmit={submitForm} className={styles.form} id='contactUsForm'>
                 <input placeholder='First Name' onChange={updateFormControl}
                     type='text'
                     id='firstName'
@@ -81,7 +95,7 @@ export const ContactUsForm = () => {
                     id='city'
                     value={formState.city} />
 
-                <button>
+                <button type='submit' form='contactUsForm'>
                     Contact us!
                 </button>
             </form>

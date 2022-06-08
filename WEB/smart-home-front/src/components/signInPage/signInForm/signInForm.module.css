@@ -1,0 +1,42 @@
+.MainWindow {
+    height: 40vh;
+    width: 500px;
+    padding: 0;
+    margin: 0;
+    margin-left: 0;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.form {
+    height: 80%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-left: 0;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-evenly;
+}
+
+.form button {
+
+    height: 20%;
+    background: #1279fd;
+    box-shadow: none;
+    text-shadow: none;
+    color: #ffffff;
+    display: block;
+    align-content: center;
+    justify-content: center;
+    border-style: none;
+    border-radius: 4px;
+}
+
+.form button:hover {
+    background: #519cff;
+}

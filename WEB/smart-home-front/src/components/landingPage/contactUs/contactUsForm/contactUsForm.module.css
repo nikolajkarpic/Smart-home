@@ -45,8 +45,14 @@
     text-shadow: none;
     color: #ffffff;
     display: block;
+    align-content: center;
+    justify-content: center;
     border-style: none;
     border-radius: 4px;
+}
+
+.form button:hover {
+    background: #519cff;
 }
 
 @media (max-width: 1050px) {

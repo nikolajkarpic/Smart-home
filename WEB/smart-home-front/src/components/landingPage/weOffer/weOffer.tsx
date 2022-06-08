@@ -1,6 +1,6 @@
 import { OfferedService } from './offeredService/offeredService'
 import styles from './weOffer.module.css'
-import img from '../../assets/images/5f975b5d-o-consultancy-services_0cs07n0cs07n000000001.png'
+import img from '../../../assets/images/5f975b5d-o-consultancy-services_0cs07n0cs07n000000001.png'
 
 export const WeOffer = () => {
     return (
