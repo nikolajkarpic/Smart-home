@@ -1,11 +1,10 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Logo } from '../../common/logo/logo'
 import styles from './signInForm.module.css'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { SingInRequest } from '../../../api/signIn/signIn'
-import { CollectionsBookmarkOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 
 type UserCredentials = {
@@ -112,7 +111,7 @@ export const SignInForm: React.FC<{}> = () => {
             </div>
             <div className={styles.needAccount}>
                 <p> Need an account?</p>
-                <a> Create it!</a>
+                <Link to='/signup'> Create it!</Link>
             </div>
             <div>
 

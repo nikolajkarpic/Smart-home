@@ -1,8 +1,13 @@
 import { OfferedService } from './offeredService/offeredService'
 import styles from './weOffer.module.css'
 import img from '../../../assets/images/5f975b5d-o-consultancy-services_0cs07n0cs07n000000001.png'
+import { useRef } from 'react'
 
-export const WeOffer = () => {
+
+
+export const WeOffer: React.FC<{}> = () => {
+    const divRef = useRef(null)
+
     return (
         <div className={styles.mainWindow}>
             <OfferedService

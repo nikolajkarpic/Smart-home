@@ -3,7 +3,7 @@ import { Logo } from "../../components/common/logo/logo";
 import { SignInForm } from "../../components/signInPage/signInForm/signInForm";
 import styles from './signIn.module.css'
 
-class SignIn extends Component {
+class SignInPage extends Component {
 
     state = {
 
@@ -21,4 +21,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn
+export default SignInPage

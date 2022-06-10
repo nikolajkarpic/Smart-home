@@ -6,11 +6,7 @@ interface SingUpCredentials {
     pass: string;
 }
 
-export const SingInRequest = async (singInCredentials: SingUpCredentials) => {
-    try {
-        const result = await axios.post(Endpoints.signUp, { ...singInCredentials });
-        return result;
-    } catch (error) {
-        return error;
-    }
+export const SingUpRequest = async (singInCredentials: SingUpCredentials) => {
+    const result = await axios.post(Endpoints.signUp, { ...singInCredentials });
+    return result;
 }
