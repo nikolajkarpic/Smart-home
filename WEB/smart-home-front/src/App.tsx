@@ -7,6 +7,7 @@ import LandingPage from './containers/landingPage/landingPage';
 function App() {
   return (
     <>
+      {/* <LandingPage></LandingPage> */}
       <SignIn />
     </>
   );

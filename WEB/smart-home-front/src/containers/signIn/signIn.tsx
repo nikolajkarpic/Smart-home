@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Logo } from "../../components/common/logo/logo";
 import { SignInForm } from "../../components/signInPage/signInForm/signInForm";
 import styles from './signIn.module.css'
 
@@ -12,6 +13,8 @@ class SignIn extends Component {
     render() {
         return (
             <div className={styles.MainWindow}>
+                <Logo />
+                <h1>Sign in to Smart Home</h1>
                 <SignInForm />
             </ div>
         )

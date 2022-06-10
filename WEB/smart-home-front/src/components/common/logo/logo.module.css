@@ -1,0 +1,14 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.text {
+    flex-grow: 1;
+    color: #003B6D;
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 22px;
+    letter-spacing: 4px;
+}
