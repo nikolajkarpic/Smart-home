@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, FormEvent, useState } from 'react';
 import styles from './signInForm.module.css'
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -12,9 +12,11 @@ type UserCredentials = {
     pass: string;
 }
 
+
 export const SignInForm: React.FC<{}> = () => {
 
-    //signin tooken must be saved somehow!
+    const navigate = useNavigate();
+    const goToPage = () => navigate('/app');
 
     const initialSignInState = {
         email: '',
@@ -43,17 +45,18 @@ export const SignInForm: React.FC<{}> = () => {
     }
 
     const signInSubmision = async () => {
-
         try {
-
             const result = await SingInRequest({ ...signInState });
+            setErrorSignIn(false);
+            localStorage.setItem('access_token', result.data.access_token);
+            goToPage();
         } catch (error: any) {
             setErrorSignIn(true);
         }
     }
 
     const togleError = () => {
-        setErrorSignIn(!errorSignIn);
+        setErrorSignIn(false);
     }
 
     const changePassVisibility = () => {
@@ -70,7 +73,7 @@ export const SignInForm: React.FC<{}> = () => {
 
                 <form onSubmit={submitSignInRequest} className={styles.form}>
                     {errorSignIn ? <div className={styles.errorMsg}>Incorect credentials{<CloseIcon htmlColor='red' onClick={togleError} />}</div> : null}
-                    <div className={styles.credDiv}>
+                    <div className={styles.credDiv} onClick={togleError}>
 
                         <label>
                             Username:

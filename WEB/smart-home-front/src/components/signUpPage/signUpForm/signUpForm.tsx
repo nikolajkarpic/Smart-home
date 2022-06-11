@@ -1,10 +1,11 @@
 import React from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './signUpForm.module.css'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { SingUpRequest } from '../../../api/signUp/signUp'
+import { SingInRequest } from '../../../api/signIn/signIn'
 import CloseIcon from '@mui/icons-material/Close';
 
 type UserCredentials = {
@@ -15,6 +16,8 @@ type UserCredentials = {
 
 export const SignUpForm: React.FC<{}> = () => {
 
+    const navigate = useNavigate();
+    const goToPage = (whereTo: string) => navigate(whereTo);
 
     const initialSignUpState = {
         email: '',
@@ -49,6 +52,12 @@ export const SignUpForm: React.FC<{}> = () => {
 
         try {
             const result = await SingUpRequest({ ...signUpState });
+            await SingInRequest({ ...signUpState }).then((response) => {
+                localStorage.setItem('access_token', response.data.access_token);
+                goToPage('/app');
+            }).catch((error) => {
+                goToPage('/signin');
+            })
         } catch (error: any) {
             setErrorSignUp(true);
             if (typeof (error.response.data.message) === 'string') {

@@ -30,12 +30,16 @@ export class SmartHomeService {
     }
 
     async getSmartHomeById(userId: number, smartHomeId: number) {
-        const smartHome = await this.prisma.smartHome.findFirst({
+        const smartHome = await this.prisma.smartHome.findUnique({
             where: {
                 id: smartHomeId,
-                userId: userId,
             }
         })
+
+        if (!smartHome || userId != smartHome.userId) {
+            throw new ForbiddenException('Access to resource denied')
+        };
+
         return smartHome;
     }
 

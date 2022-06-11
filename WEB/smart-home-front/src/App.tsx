@@ -6,6 +6,7 @@ import './App.css';
 import SignInPage from './containers/signInPage/signIn';
 import LandingPage from './containers/landingPage/landingPage';
 import { SignUpPage } from './containers/signUpPage/signUpPage';
+import SmartHomeAppPage from "./containers/smartHomeAppPage/smartHomeAppPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/app" element={<SmartHomeAppPage />} />
       </Routes>
     </>
   );
