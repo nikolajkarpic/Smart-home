@@ -1,0 +1,21 @@
+.mainWindow {
+    width: 206px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 40px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #003B6D;
+    border-radius: 5px;
+}
+
+.text {
+    font-size: small;
+    font-weight: bolder;
+    color: #003B6D;
+}

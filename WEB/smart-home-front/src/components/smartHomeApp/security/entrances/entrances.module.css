@@ -1,0 +1,26 @@
+.mainWindow {
+    height: 114px;
+    width: 80%;
+
+    overflow-y: scroll;
+    background-color: rgb(198, 239, 241);
+    border: 1px solid #003B6D;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mainWindow::-webkit-scrollbar {
+    width: 8px;
+    padding-right: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+    background: #003B6D;
+    border-radius: 5px;
+}

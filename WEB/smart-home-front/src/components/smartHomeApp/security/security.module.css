@@ -1,0 +1,24 @@
+.mainWindow {
+    height: 560px;
+    width: 350px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #6699CC;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.topInfo {
+    width: 80%;
+    height: 20%;
+    flex-direction: column;
+}
+
+.topInfo h2 {
+    color: #003B6D;
+    margin: 0;
+}

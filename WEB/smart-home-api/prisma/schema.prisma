@@ -47,8 +47,8 @@ model SmartHome {
   address String?
   zipCode String?
 
-  commands String? @default("")
-
+  commands             String?    @default("")
+  doorLocked           Boolean?   @default(true)
   currentTemperature   Int?
   prefferedTemperature Int        @default(27)
   occupants            Occupant[]

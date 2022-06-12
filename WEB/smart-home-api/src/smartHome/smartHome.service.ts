@@ -91,6 +91,9 @@ export class SmartHomeService {
                 id: smartHomeId
             }
         });
+        if (!smartHome || userId != smartHome.userId) {
+            throw new ForbiddenException('Access to resource denied')
+        };
         let commands: Array<string> = smartHome.commands.split(" ");
         let interfaceList: Array<CommandInterface> = [];
         const commandsList = commands.slice(0, -1).forEach((command) => {
