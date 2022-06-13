@@ -5,6 +5,7 @@ import DoorSlidingOutlinedIcon from '@mui/icons-material/DoorSlidingOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import styles from './entrance.module.css'
+import { PatchDoorCommand } from '../../../../../api/patchDoorCommand/patchDoorCommand';
 
 type Props = {
     entranceType: string;
@@ -17,6 +18,10 @@ const Entrance: React.FC<Props> = ({ entranceType, locked, name }) => {
     const [lockedState, setLockedState] = useState<Boolean>(locked)
     const toggleLockedState = () => {
         setLockedState(!lockedState);
+        let command = lockedState ? 'unlock' : 'lock';
+        PatchDoorCommand(1, {
+            command: command,
+        })
         //call prop for calling axios door command
     }
 

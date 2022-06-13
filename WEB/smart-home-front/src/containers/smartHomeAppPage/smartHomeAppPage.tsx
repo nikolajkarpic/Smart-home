@@ -8,7 +8,20 @@ import { Endpoints } from '../../api/endpoints';
 import { AppNavbar } from '../../components/smartHomeApp/navbar/navbar';
 import Security from '../../components/smartHomeApp/security/security';
 import { GetCommands } from '../../api/getCommands/getCommands';
+import { ArrayTypeNode } from 'typescript';
+import { GetOccupants } from '../../api/getOccupants/getOccupants';
 
+
+type SmartHomeOccupant = {
+    'id': number;
+    'createdAt': string;
+    'updatedAt': string;
+    'name': string;
+    'canEnterHouse': boolean;
+    'pin': string;
+    'RFID': string;
+    'smartHomeId': number;
+}
 
 
 const SmartHomeAppPage: React.FC<{}> = () => {
@@ -18,7 +31,20 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         navigate(to);
     }
 
+    const initialSmartHomeOccupant = {
+        id: 0,
+        createdAt: '',
+        updatedAt: '',
+        name: '',
+        canEnterHouse: true,
+        pin: '',
+        RFID: '',
+        smartHomeId: 0,
+    }
+
     const [commands, setCommands] = useState<Array<string>>([''])
+    const [occupants, setOccupants] = useState<Array<SmartHomeOccupant>>([initialSmartHomeOccupant])
+
 
     // useEffect(() => {
     //     GetUser().then((response) => {
@@ -27,14 +53,7 @@ const SmartHomeAppPage: React.FC<{}> = () => {
     //         goToPage('/signin')
     //     })
     // }, [])
-    useEffect(() => {
-        GetCommands(1).then((response) => {
-            setCommands(response.data)
-            console.log(commands);
-        }).catch((error) => {
-            console.log(error)
-        })
-    }, [])
+
 
     // get commands and data each second
     // useEffect(() => {

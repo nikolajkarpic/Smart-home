@@ -5,4 +5,8 @@ export const Endpoints = {
     smartHome: '/smartHome',
     getUser: '/users/me',
     getCommands: '/commands',
+    getOccupants: '/occupants',
+    occupant: '/occupant',
+    createOccupant: '/occupant/create',
+    patchDoorCommand: '/doorCommand',
 }
