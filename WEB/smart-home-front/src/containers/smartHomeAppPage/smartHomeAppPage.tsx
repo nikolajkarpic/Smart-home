@@ -10,6 +10,8 @@ import Security from '../../components/smartHomeApp/security/security';
 import { GetCommands } from '../../api/getCommands/getCommands';
 import { ArrayTypeNode } from 'typescript';
 import { GetOccupants } from '../../api/getOccupants/getOccupants';
+import RoomsNavbar from '../../components/roomsNavbar/roomsNavbar';
+import { height } from '@mui/system';
 
 
 type SmartHomeOccupant = {
@@ -72,6 +74,8 @@ const SmartHomeAppPage: React.FC<{}> = () => {
     return (
         <div style={{
             backgroundColor: 'rgb(198, 239, 241)',
+            width: '100%',
+            height: '100vh',
             paddingTop: '5%',
             display: 'flex',
             flexDirection: 'row',
@@ -81,9 +85,10 @@ const SmartHomeAppPage: React.FC<{}> = () => {
 
 
         }}>
-            {/* <AppNavbar /> */}
+            <AppNavbar />
+            <RoomsNavbar />
             {/* <div>MainBody</div> */}
-            <Security smartHomeId={1} />
+            {/* <Security smartHomeId={1} /> */}
         </div>
     )
 }

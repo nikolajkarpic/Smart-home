@@ -18,13 +18,18 @@
     display: flex;
 }
 
-.text:hover {
+.mainWindow:hover {
     background-color: #7e93b03d;
 }
 
 .text {
+    width: 60%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
     font-size: small;
     font-weight: bolder;
+    border-radius: 5px;
     color: #003B6D;
 }
 

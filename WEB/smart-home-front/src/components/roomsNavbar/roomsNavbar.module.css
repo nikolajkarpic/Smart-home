@@ -1,0 +1,23 @@
+.navbar {
+    position: fixed;
+    top: 64px;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    width: 95%;
+    height: 36px;
+    background-color: #6699ccba;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.rooms {
+    display: flex;
+    flex-direction: row;
+}
+
+.allDiv {
+    margin-right: 3rem;
+}

@@ -27,6 +27,10 @@
     border-radius: 5px;
 }
 
+.addUser:hover {
+    background-color: #7e93b03d;
+}
+
 .addOccupant {
     display: flex;
     flex-direction: row;
