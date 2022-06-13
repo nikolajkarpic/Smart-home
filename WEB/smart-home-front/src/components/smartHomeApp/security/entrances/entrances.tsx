@@ -2,19 +2,17 @@ import React from 'react'
 import Entrance from './entrance/entrance';
 import styles from './entrances.module.css'
 
-const Entrances: React.FC<{}> = () => {
+type Props = {
+    smartHomeId: number;
+}
+
+
+const Entrances: React.FC<Props> = ({ smartHomeId }) => {
     return (
         <div className={styles.mainWindow}>
             <div>
 
-                <Entrance entranceType='door' locked={false} name='prednja' />
-                <Entrance entranceType='slidingDoor' locked name='prednja' />
-                <Entrance entranceType='door' locked={false} name='prednja' />
-                <Entrance entranceType='door' locked name='prednja' />
-                <Entrance entranceType='slidingDoor' locked name='prednja' />
-
-                <Entrance entranceType='door' locked={false} name='prednja' />
-                <Entrance entranceType='window' locked name='prednja' />
+                <Entrance entranceType='door' locked={false} name='prednja' smartHomeId={smartHomeId} />
             </div>
 
 

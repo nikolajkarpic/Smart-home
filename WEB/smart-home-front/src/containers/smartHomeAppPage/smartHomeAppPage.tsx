@@ -83,7 +83,7 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         }}>
             {/* <AppNavbar /> */}
             {/* <div>MainBody</div> */}
-            <Security />
+            <Security smartHomeId={1} />
         </div>
     )
 }

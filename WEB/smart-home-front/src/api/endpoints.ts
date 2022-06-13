@@ -9,4 +9,5 @@ export const Endpoints = {
     occupant: '/occupant',
     createOccupant: '/occupant/create',
     patchDoorCommand: '/doorCommand',
+    getDoorStatus: '/doorStatus',
 }

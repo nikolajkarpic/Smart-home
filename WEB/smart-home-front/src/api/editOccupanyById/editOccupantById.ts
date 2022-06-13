@@ -15,7 +15,7 @@ export const EditOccupantById = (smartHomeId: number, occupantId: number, dto: E
     console.log(dto)
     const path = Endpoints.smartHome + `/${smartHomeId}` + Endpoints.occupant + `/${occupantId}`;
     return instance.patch(path, {
-        'dto': {
+        dto: {
             ...dto
         }
     });

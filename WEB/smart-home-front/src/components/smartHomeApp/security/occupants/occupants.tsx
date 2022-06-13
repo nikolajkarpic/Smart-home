@@ -9,6 +9,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { CreateOccupant } from "../../../../api/addOccupant/addOccupant";
 
+type Props = {
+    smartHomeId: number;
+}
+
 type Occupant = {
     id: number;
     createdAt: string;
@@ -26,7 +30,7 @@ type addOccupant = {
     RFID?: string;
 }
 
-const Occupants: React.FC<{}> = () => {
+const Occupants: React.FC<Props> = ({ smartHomeId }) => {
 
     const initialSmartHomeOccupant = {
         id: 0,
@@ -48,7 +52,7 @@ const Occupants: React.FC<{}> = () => {
     const [addOccupantDto, setAddOccupantDto] = useState<addOccupant>(initialAddOccupant);
 
     useEffect(() => {
-        GetOccupants(1).then((response) => {
+        GetOccupants(smartHomeId).then((response) => {
             setOccupants(response.data)
             console.log(response.data);
         }).catch((error) => {

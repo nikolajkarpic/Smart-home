@@ -90,20 +90,36 @@ export class OccupantService {
         if (!smartHome || userId != smartHome.userId || !occupant || smartHomeId != occupant.smartHomeId) {
             throw new ForbiddenException('Access to resource denied');
         }
-        const occupantByRfid = await this.prisma.occupant.findFirst({
-            where: {
-                RFID: dto.RFID
-            }
-        });
-        const occupantByPin = await this.prisma.occupant.findFirst({
-            where: {
-                pin: dto.pin
-            }
-        });
+        if (occupant.RFID !== dto.RFID) {
 
-        if (occupantByPin || occupantByRfid) {
-            throw new ForbiddenException("Credential taken");
+            if (dto.RFID !== undefined) {
+
+                const occupantByRfid = await this.prisma.occupant.findFirst({
+                    where: {
+                        RFID: dto.RFID
+                    }
+                });
+                if (occupantByRfid) {
+                    throw new ForbiddenException("Credential taken");
+                }
+            }
         }
+        if (occupant.pin !== dto.pin) {
+
+            if (dto.pin !== undefined) {
+
+                const occupantByPin = await this.prisma.occupant.findFirst({
+                    where: {
+                        pin: dto.pin
+                    }
+                });
+                if (occupantByPin) {
+                    throw new ForbiddenException("Credential taken");
+                }
+            }
+        }
+
+
 
         const updatedOccupant = this.prisma.occupant.update({
             where: {

@@ -43,8 +43,13 @@ export class SmartHomeController {
         return this.smartHomeService.getSmartHomeById(userId, smartHomeId);
     }
 
+    @Get(':id/doorStatus')
+    getDoorStatus(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number) {
+        return this.smartHomeService.getDoorStatus(userId, smartHomeId);
+    }
+
     @Patch(':id/doorCommand')
-    updateDoorCommand(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number, dto: DoorCommnad) {
+    updateDoorCommand(@GetUser('id') userId: number, @Param('id', ParseIntPipe) smartHomeId: number, @Body() dto: DoorCommnad) {
         return this.smartHomeService.updateDoorCommand(userId, smartHomeId, dto);
     }
 

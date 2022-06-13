@@ -106,11 +106,37 @@ export class SmartHomeService {
             interfaceList.push(commandInterface);
         });
 
+        const command: string = ''
+
+        await this.prisma.smartHome.update({
+            where: {
+                id: smartHomeId
+            },
+            data: {
+                commands: command
+            }
+        })
+
         return interfaceList;
 
     }
 
-    async updateDoorCommand(userId: number, smartHomeId, dto: DoorCommnad) {
+    async getDoorStatus(userId: number, smartHomeId: number) {
+        const smartHome = await this.prisma.smartHome.findUnique({
+            where: {
+                id: smartHomeId
+            }
+        });
+        if (!smartHome || userId != smartHome.userId) {
+            throw new ForbiddenException('Access to resource denied')
+        };
+
+        return ({
+            doorLocked: smartHome.doorLocked
+        });
+    }
+
+    async updateDoorCommand(userId: number, smartHomeId: number, dto: DoorCommnad) {
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
                 id: smartHomeId
@@ -121,6 +147,12 @@ export class SmartHomeService {
         };
 
         const previousCommands = smartHome.commands;
+        let lockDoor: boolean;
+        if (dto.command === 'lock') {
+            lockDoor = true;
+        } else {
+            lockDoor = false;
+        }
         let command = previousCommands + "home:door:" + dto.command + " ";
 
         await this.prisma.smartHome.update({
@@ -128,6 +160,7 @@ export class SmartHomeService {
                 id: smartHomeId
             },
             data: {
+                doorLocked: lockDoor,
                 commands: command
             }
         })
