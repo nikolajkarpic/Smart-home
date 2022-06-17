@@ -56,7 +56,8 @@ export class RoomService {
 
     };
 
-    async getOccupantById(userId: number, smartHomeId: number, roomId: number) {
+
+    async getRoomById(userId: number, smartHomeId: number, roomId: number) {
         const smartHome = await this.prisma.smartHome.findFirst({
             where: {
                 id: smartHomeId,
@@ -119,6 +120,30 @@ export class RoomService {
             }
         });
         return updatedRoom;
+    }
+
+    async deleteRoomById(userId: number, smartHomeId: number, roomId: number) {
+        const smartHome = await this.prisma.smartHome.findFirst({
+            where: {
+                id: smartHomeId,
+            },
+        });
+
+        const room = await this.prisma.room.findFirst({
+            where: {
+                id: roomId
+            }
+        });
+        if (!smartHome || userId != smartHome.userId || !room || smartHomeId != room.smartHomeId) {
+            throw new ForbiddenException('Access to resource denied');
+        }
+
+
+        return this.prisma.room.delete({
+            where: {
+                id: roomId,
+            }
+        });
     }
 
 

@@ -1,6 +1,7 @@
 import React, { ChangeEvent, RefObject, useEffect, useRef, useState } from "react"
-import { Room, AddRoomDto } from "../../global/types";
-import { CreateRoom, DeleteRoom } from "../../api";
+import { Room, AddRoomDto } from "../../../global/types";
+import { CreateRoom, DeleteRoom } from "../../../api";
+import { useNavigate } from "react-router-dom";
 import styles from './roomsNavbar.module.css'
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -16,7 +17,9 @@ type Props = {
 
 const RoomsNavbar: React.FC<Props> = ({ rooms, getRoomId, smartHomeId }) => {
 
+    const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>(null);
+    const xButtonRef = useRef<HTMLDivElement>(null)
 
     const [selectedRoom, setSelectedRoom] = useState<string>('all')
     const [addRoomDto, setAddRoomDto] = useState<AddRoomDto>({
@@ -28,17 +31,23 @@ const RoomsNavbar: React.FC<Props> = ({ rooms, getRoomId, smartHomeId }) => {
     const createRoom = () => {
         CreateRoom(smartHomeId, addRoomDto).then((response) => {
             setAddRoom(false)
+            setAddRoomDto({
+                name: ''
+            })
             console.log(response);
         }).catch((error) => {
-            console.log(error);
+            if (error.response.status === 401) {
+                navigate('/signin')
+            }
 
         })
     }
 
     useEffect(() => {
         if (addRoom) {
-            if (inputRef.current !== null) {
+            if (inputRef.current !== null && xButtonRef.current !== null) {
                 inputRef.current.focus();
+                xButtonRef.current.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
             }
         }
     }, [addRoom])
@@ -46,9 +55,8 @@ const RoomsNavbar: React.FC<Props> = ({ rooms, getRoomId, smartHomeId }) => {
     const deleteRoom = () => {
         DeleteRoom(smartHomeId, parseInt(selectedRoom)).then((response) => {
             setAddRoom(false)
-            console.log(response);
         }).catch((error) => {
-            console.log(error);
+
 
         })
     }
@@ -116,21 +124,28 @@ const RoomsNavbar: React.FC<Props> = ({ rooms, getRoomId, smartHomeId }) => {
                                         justifySelf: 'center'
                                     }
                                 } fontSize="inherit" />
+                            <div
+                                ref={xButtonRef}
+                                style={{
+                                    display: 'flex',
+                                    justifyItems: 'center',
+                                }}>
 
-                            <CloseIcon
-                                onClick={() => setAddRoom(false)}
-                                className={styles.iconClose}
-                                color='inherit'
-                                fontSize='inherit'
-                                sx={
-                                    {
-                                        padding: '2px',
-                                        margin: '0',
-                                        marginLeft: '8px',
-                                        alignSelf: 'center',
-                                        justifySelf: 'center'
-                                    }
-                                } />
+                                <CloseIcon
+                                    onClick={() => setAddRoom(false)}
+                                    className={styles.iconClose}
+                                    color='inherit'
+                                    fontSize='inherit'
+                                    sx={
+                                        {
+                                            padding: '2px',
+                                            margin: '0',
+                                            marginLeft: '8px',
+                                            alignSelf: 'center',
+                                            justifySelf: 'center'
+                                        }
+                                    } />
+                            </div>
 
                         </div>
                         : null}
@@ -152,7 +167,7 @@ const RoomsNavbar: React.FC<Props> = ({ rooms, getRoomId, smartHomeId }) => {
                     <AddIcon color="inherit" />
                 </button>
             </div>
-        </div>
+        </div >
     )
 }
 

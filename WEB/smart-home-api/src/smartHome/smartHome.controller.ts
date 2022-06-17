@@ -101,12 +101,17 @@ export class SmartHomeController {
 
     @Get(":smartHomeId/room/:roomId")
     getRoomById(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number, @Param('roomId', ParseIntPipe) roomId: number) {
-        return this.roomService.getOccupantById(userId, smartHomeId, roomId);
+        return this.roomService.getRoomById(userId, smartHomeId, roomId);
     }
 
     @Patch(":smartHomeId/room/:roomId")
     editRoomById(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number, @Param('roomId', ParseIntPipe) roomId: number, @Body() dto: EditRoomDto) {
         return this.roomService.editRoomById(userId, smartHomeId, roomId, dto);
+    }
+
+    @Delete(':smartHomeId/room/:roomId')
+    deleteRoomById(@GetUser('id') userId: number, @Param('smartHomeId', ParseIntPipe) smartHomeId: number, @Param('roomId', ParseIntPipe) roomId: number) {
+        return this.roomService.deleteRoomById(userId, smartHomeId, roomId);
     }
 
 }

@@ -7,10 +7,10 @@ import { AppNavbar } from '../../components/smartHomeApp/navbar/navbar';
 import Security from '../../components/smartHomeApp/security/security';
 import { GetCommands } from '../../api/getCommands/getCommands';
 import { GetOccupants } from '../../api/getOccupants/getOccupants';
-import RoomsNavbar from '../../components/roomsNavbar/roomsNavbar';
-import { height } from '@mui/system';
+import RoomsNavbar from '../../components/smartHomeApp/roomsNavbar/roomsNavbar';
 import { Room } from '../../global/types';
 import { GetRooms } from '../../api';
+import SmartCards from '../../components/smartHomeApp/smartCads/smartCards';
 
 const SmartHomeAppPage: React.FC<{}> = () => {
 
@@ -79,7 +79,9 @@ const SmartHomeAppPage: React.FC<{}> = () => {
                 setRooms([...response.data]);
                 // console.log(commands);
             }).catch((error) => {
-                console.log(error)
+                if (error.response.status == 401) {
+                    navigate('/signin');
+                }
             })
         }, 1000);
         return () => clearInterval(interval);
@@ -91,19 +93,20 @@ const SmartHomeAppPage: React.FC<{}> = () => {
             backgroundColor: 'rgb(198, 239, 241)',
             width: '100%',
             height: '100vh',
-            paddingTop: '5%',
+            paddingTop: '120px',
             display: 'flex',
             flexDirection: 'row',
-            alignContent: 'center',
-            justifyContent: 'center',
+            alignContent: 'space-between',
+            justifyContent: 'space-evenly',
             justifyItems: 'center',
 
 
         }}>
             <AppNavbar />
             <RoomsNavbar rooms={rooms} getRoomId={getRoomId} smartHomeId={1} />
+            <SmartCards selectedRoom={selectedRoom} rooms={rooms} />
             {/* <div>MainBody</div> */}
-            {/* <Security smartHomeId={1} /> */}
+            <Security smartHomeId={1} />
         </div>
     )
 }

@@ -22,3 +22,9 @@
     color: #003B6D;
     margin: 0;
 }
+
+@media (max-width: 1000px) {
+    .mainWindow {
+        height: 300;
+    }
+}
