@@ -16,6 +16,96 @@
 .rooms {
     display: flex;
     flex-direction: row;
+    width: 80%;
+}
+
+.roomsButtons {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    margin-left: 8px;
+    height: 100%;
+}
+
+.actionButton {
+    /* display: flex; */
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-direction: row;
+    margin: 0;
+}
+
+.roomsWithAdd {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    overflow-x: auto;
+
+
+}
+
+.iconOk {
+    color: #61e655;
+}
+
+.iconOk:hover {
+    color: green
+}
+
+.iconClose {
+    color: #bd3535;
+}
+
+.iconClose:hover {
+    color: red
+}
+
+.roomsWithAdd::-webkit-scrollbar {
+    height: 4px;
+    width: 2px;
+    padding-right: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+    background: #003B6D;
+    width: 2px;
+    border-radius: 5px;
+
+}
+
+.inputWithButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputWithButton input {
+    margin-left: 1rem;
+    background-color: rgb(198, 239, 241);
+    border-radius: 5px;
+}
+
+.selectedButton {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    margin-left: 8px;
+    height: 100%;
+    color: #003B6D;
+}
+
+
+
+.roomsButtons:hover {
+    color: #003B6D;
 }
 
 .allDiv {

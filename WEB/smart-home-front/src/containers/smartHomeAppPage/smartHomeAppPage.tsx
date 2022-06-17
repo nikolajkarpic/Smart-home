@@ -1,30 +1,16 @@
 import React, { Component, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './smartHomeAppPage.module.css'
-import instance from '../../api/axios-auth/axios-auth'
 import { GetUser } from '../../api/getUser/getUser';
-import axios from 'axios'
 import { Endpoints } from '../../api/endpoints';
 import { AppNavbar } from '../../components/smartHomeApp/navbar/navbar';
 import Security from '../../components/smartHomeApp/security/security';
 import { GetCommands } from '../../api/getCommands/getCommands';
-import { ArrayTypeNode } from 'typescript';
 import { GetOccupants } from '../../api/getOccupants/getOccupants';
 import RoomsNavbar from '../../components/roomsNavbar/roomsNavbar';
 import { height } from '@mui/system';
-
-
-type SmartHomeOccupant = {
-    'id': number;
-    'createdAt': string;
-    'updatedAt': string;
-    'name': string;
-    'canEnterHouse': boolean;
-    'pin': string;
-    'RFID': string;
-    'smartHomeId': number;
-}
-
+import { Room } from '../../global/types';
+import { GetRooms } from '../../api';
 
 const SmartHomeAppPage: React.FC<{}> = () => {
 
@@ -33,6 +19,27 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         navigate(to);
     }
 
+    const initialRoom: Room = {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        name: "",
+        lights: false,
+        currentTemperature: null,
+        prefferedTemperature: 27,
+        mq7: null,
+        pir: null,
+        smartHomeId: 1
+    }
+
+
+    const [rooms, setRooms] = useState<Array<Room>>([initialRoom]);
+    const [commands, setCommands] = useState<Array<string>>([''])
+    const [selectedRoom, setSelectedRoom] = useState<string>('all');
+
+    const getRoomId = (roomId: string) => {
+        setSelectedRoom(roomId);
+    }
     const initialSmartHomeOccupant = {
         id: 0,
         createdAt: '',
@@ -44,31 +51,39 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         smartHomeId: 0,
     }
 
-    const [commands, setCommands] = useState<Array<string>>([''])
-    const [occupants, setOccupants] = useState<Array<SmartHomeOccupant>>([initialSmartHomeOccupant])
+
+    useEffect(() => {
+        console.log(selectedRoom);
+    }, [selectedRoom])
+
+    // const [occupants, setOccupants] = useState<Array<SmartHomeOccupant>>([initialSmartHomeOccupant])
 
 
-    // useEffect(() => {
-    //     GetUser().then((response) => {
-    //         console.log(response);
-    //     }).catch((error) => {
-    //         goToPage('/signin')
-    //     })
-    // }, [])
+    useEffect(() => {
+        GetRooms(1).then((response) => {
+            console.log(response);
+            const data = response.data;
+            setRooms([...data]);
+            console.log(rooms);
+
+        }).catch((error) => {
+            console.log(error)
+        })
+    }, [])
 
 
     // get commands and data each second
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         GetCommands(1).then((response) => {
-    //             setCommands(response.data)
-    //             console.log(commands);
-    //         }).catch((error) => {
-    //             console.log(error)
-    //         })
-    //     }, 1000);
-    //     return () => clearInterval(interval);
-    // }, []);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            GetRooms(1).then((response) => {
+                setRooms([...response.data]);
+                // console.log(commands);
+            }).catch((error) => {
+                console.log(error)
+            })
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
 
 
     return (
@@ -86,7 +101,7 @@ const SmartHomeAppPage: React.FC<{}> = () => {
 
         }}>
             <AppNavbar />
-            <RoomsNavbar />
+            <RoomsNavbar rooms={rooms} getRoomId={getRoomId} smartHomeId={1} />
             {/* <div>MainBody</div> */}
             {/* <Security smartHomeId={1} /> */}
         </div>

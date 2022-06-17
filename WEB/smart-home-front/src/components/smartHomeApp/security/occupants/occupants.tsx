@@ -53,16 +53,25 @@ const Occupants: React.FC<Props> = ({ smartHomeId }) => {
 
     useEffect(() => {
         GetOccupants(smartHomeId).then((response) => {
-            setOccupants(response.data)
+            const data = response.data;
+            setOccupants(data)
             console.log(response.data);
         }).catch((error) => {
             console.log(error)
         })
     }, [])
 
-    let transformedOccupants = occupants.map(({ name, smartHomeId, RFID, pin, canEnterHouse, id }) => (
-        <Occupant key={id} id={id} name={name} smartHomeId={smartHomeId} RFID={RFID} pin={pin} canEnterHouse={canEnterHouse} deleteOccupant={() => deleteOccupant(id, smartHomeId)} />
-    ))
+    let transformedOccupants = occupants.
+        map(({ name, smartHomeId, RFID, pin, canEnterHouse, id }) => (
+            <Occupant
+                key={id}
+                id={id}
+                name={name}
+                smartHomeId={smartHomeId}
+                RFID={RFID} pin={pin}
+                canEnterHouse={canEnterHouse}
+                deleteOccupant={() => deleteOccupant(id, smartHomeId)} />
+        ))
 
     const deleteOccupant = (occupantId: number, smartHomeId: number) => {
         DeleteOccupant(occupantId, smartHomeId).then(() => {
