@@ -12,7 +12,9 @@ export * from './patchDoorCommand/patchDoorCommand';
 export * from './signIn/signIn';
 export * from './signUp/signUp';
 export * from './createRoom/createRoom';
-export * from './deleteRoom/deleteRoom'
+export * from './deleteRoom/deleteRoom';
+export * from './editRoomById/editRoomById';
+export * from './editSmartHomeById/editSmartHomeById';
 
 
 

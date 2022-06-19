@@ -54,7 +54,9 @@ const RoomsNavbar: React.FC<Props> = ({ rooms, getRoomId, smartHomeId }) => {
 
     const deleteRoom = () => {
         DeleteRoom(smartHomeId, parseInt(selectedRoom)).then((response) => {
+
             setAddRoom(false)
+            setSelectedRoom('all')
         }).catch((error) => {
 
 

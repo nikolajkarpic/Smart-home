@@ -23,7 +23,8 @@ export class RoomService {
                 smartHomeId: smartHomeId
             }
         });
-        return rooms;
+        const roomSorted = rooms.sort((a: any, b: any) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+        return roomSorted;
     }
 
     async createRoom(userId: number, smarthomeId: number, dto: CreateRoomDto) {

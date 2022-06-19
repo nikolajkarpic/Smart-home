@@ -55,7 +55,9 @@ export class OccupantService {
                 smartHomeId: smartHomeId
             }
         });
-        return occupants;
+        const occupantsSorted = occupants.sort((a: any, b: any) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+
+        return occupantsSorted;
     }
     async getOccupantById(userId: number, smartHomeId: number, occupantId: number) {
         const smartHome = await this.prisma.smartHome.findFirst({

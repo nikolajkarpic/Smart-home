@@ -79,7 +79,7 @@ const SmartHomeAppPage: React.FC<{}> = () => {
                 setRooms([...response.data]);
                 // console.log(commands);
             }).catch((error) => {
-                if (error.response.status == 401) {
+                if (error.response.status === 401) {
                     navigate('/signin');
                 }
             })
