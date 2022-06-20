@@ -8,8 +8,8 @@ import Security from '../../components/smartHomeApp/security/security';
 import { GetCommands } from '../../api/getCommands/getCommands';
 import { GetOccupants } from '../../api/getOccupants/getOccupants';
 import RoomsNavbar from '../../components/smartHomeApp/roomsNavbar/roomsNavbar';
-import { Room } from '../../global/types';
-import { GetRooms } from '../../api';
+import { Room, SmartHome, Occupant } from '../../global/types';
+import { GetRooms, GetSmartHomes } from '../../api';
 import SmartCards from '../../components/smartHomeApp/smartCads/smartCards';
 
 const SmartHomeAppPage: React.FC<{}> = () => {
@@ -32,10 +32,26 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         smartHomeId: 1
     }
 
+    const initialSmartHome: SmartHome = {
+        id: 0,
+        createdAt: "",
+        updatedAt: "",
+        name: "",
+        address: '',
+        zipCode: '',
+        commands: "",
+        commandsFront: "",
+        doorLocked: true,
+        currentTemperature: 0,
+        prefferedTemperature: 27,
+        userId: 0
+    }
+
 
     const [rooms, setRooms] = useState<Array<Room>>([initialRoom]);
     const [commands, setCommands] = useState<Array<string>>([''])
     const [selectedRoom, setSelectedRoom] = useState<string>('all');
+    const [smartHome, setSmartHome] = useState<SmartHome>();
 
     const getRoomId = (roomId: string) => {
         setSelectedRoom(roomId);
@@ -60,6 +76,11 @@ const SmartHomeAppPage: React.FC<{}> = () => {
 
 
     useEffect(() => {
+        GetSmartHomes().then((response) => {
+            setSmartHome(response.data[0]);
+        }).catch((error) => {
+            console.log(error)
+        });
         GetRooms(1).then((response) => {
             console.log(response);
             const data = response.data;
@@ -71,11 +92,9 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         })
     }, [])
 
-
-    // get commands and data each second
     useEffect(() => {
-        const interval = setInterval(() => {
-            GetRooms(1).then((response) => {
+        if (smartHome) {
+            GetRooms(smartHome.id).then((response) => {
                 setRooms([...response.data]);
                 // console.log(commands);
             }).catch((error) => {
@@ -83,6 +102,19 @@ const SmartHomeAppPage: React.FC<{}> = () => {
                     navigate('/signin');
                 }
             })
+        }
+    }, [smartHome])
+
+    // get commands and data each second
+    useEffect(() => {
+        const interval = setInterval(() => {
+
+            GetSmartHomes().then((response) => {
+                setSmartHome(response.data[0]);
+            }).catch((error) => {
+                console.log(error)
+            });
+
         }, 1000);
         return () => clearInterval(interval);
     }, []);
@@ -92,7 +124,8 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         <div style={{
             backgroundColor: 'rgb(198, 239, 241)',
             width: '100%',
-            height: '100vh',
+            height: 'calc(100vh - 120px)',
+            overflowY: 'unset',
             paddingTop: '120px',
             display: 'flex',
             flexDirection: 'row',
@@ -104,9 +137,9 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         }}>
             <AppNavbar />
             <RoomsNavbar rooms={rooms} getRoomId={getRoomId} smartHomeId={1} />
-            <SmartCards selectedRoom={selectedRoom} rooms={rooms} />
+            {smartHome ? <SmartCards selectedRoom={selectedRoom} rooms={rooms} smartHome={smartHome} /> : null}
             {/* <div>MainBody</div> */}
-            <Security smartHomeId={1} />
+            {smartHome ? <Security smartHome={smartHome} /> : null}
         </div>
     )
 }

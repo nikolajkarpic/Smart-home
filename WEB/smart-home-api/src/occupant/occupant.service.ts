@@ -1,4 +1,5 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
+import { prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { PrismaService } from "../prisma/prisma.service";
 import { EditOccupantDto } from "./dto";
@@ -177,6 +178,14 @@ export class OccupantService {
                 name: "Unknown",
                 canEnterHouse: false
             }
+            await this.prisma.smartHome.update({
+                where: {
+                    id: smartHomeId,
+                },
+                data: {
+                    doorLocked: true,
+                }
+            })
             return data
         };
 
@@ -185,12 +194,28 @@ export class OccupantService {
                 name: occupant.name,
                 canEnterHouse: false
             }
+            await this.prisma.smartHome.update({
+                where: {
+                    id: smartHomeId,
+                },
+                data: {
+                    doorLocked: true,
+                }
+            })
             return data
         };
         const data: CanEnterHome = {
             name: occupant.name,
             canEnterHouse: true
         };
+        await this.prisma.smartHome.update({
+            where: {
+                id: smartHomeId,
+            },
+            data: {
+                doorLocked: false,
+            }
+        })
         return data;
     }
 }

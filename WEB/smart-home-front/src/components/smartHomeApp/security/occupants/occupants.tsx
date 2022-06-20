@@ -53,12 +53,23 @@ const Occupants: React.FC<Props> = ({ smartHomeId }) => {
 
     useEffect(() => {
         GetOccupants(smartHomeId).then((response) => {
-            const data = response.data;
-            setOccupants(data)
-            console.log(response.data);
+            setOccupants(response.data)
         }).catch((error) => {
             console.log(error)
         })
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+
+            GetOccupants(smartHomeId).then((response) => {
+                setOccupants(response.data)
+            }).catch((error) => {
+                console.log(error)
+            })
+
+        }, 1000);
+        return () => clearInterval(interval);
     }, [])
 
     let transformedOccupants = occupants.

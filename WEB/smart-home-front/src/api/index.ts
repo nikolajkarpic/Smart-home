@@ -15,6 +15,7 @@ export * from './createRoom/createRoom';
 export * from './deleteRoom/deleteRoom';
 export * from './editRoomById/editRoomById';
 export * from './editSmartHomeById/editSmartHomeById';
+export * from './getSmartHomes/getSmartHomes';
 
 
 

@@ -92,6 +92,11 @@ const ThermostatCard: FC<Props> = ({ name, currentTemperature, prefferedTemperat
 
     }, [prefferedCardTemperature])
 
+    useEffect(() => {
+        setPrefferedCardTemperature(prefferedTemperature);
+        setCurrentCardTemperature(currentTemperature);
+    }, [prefferedTemperature, currentTemperature])
+
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
         setPrefferedCardTemperatureTmp(newValue as number);
     };

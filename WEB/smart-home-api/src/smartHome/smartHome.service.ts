@@ -25,8 +25,9 @@ export class SmartHomeService {
                 userId: userId,
             },
         });
+        const smartHomesSorter = smartHomes.sort((a: any, b: any) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
 
-        return smartHomes;
+        return smartHomesSorter;
     }
 
     async getSmartHomeById(userId: number, smartHomeId: number) {

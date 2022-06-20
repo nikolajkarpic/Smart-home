@@ -24,8 +24,8 @@ const LightsCard: React.FC<Props> = ({ room }) => {
     })
 
     useEffect(() => {
-        console.log(dimerValue)
-    }, [dimerValue])
+        setLightsOn(room.lights);
+    }, [room.lights])
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
 

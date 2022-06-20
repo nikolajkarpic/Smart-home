@@ -30,6 +30,10 @@ const Entrance: React.FC<Props> = ({ entranceType, locked, name, smartHomeId }) 
         })
     }, [])
 
+    useEffect(() => {
+        setLockedState(locked);
+    }, [locked])
+
     const toggleLockedState = () => {
         setLockedState(!lockedState);
         let command = lockedState ? 'unlock' : 'lock';
