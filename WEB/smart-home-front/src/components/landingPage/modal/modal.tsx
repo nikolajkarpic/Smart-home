@@ -3,7 +3,8 @@ import styles from './modal.module.css'
 
 type Props = {
     show: boolean;
-    children?: ReactChild | ReactChild[]
+    children?: React.ReactNode;
+
 }
 
 

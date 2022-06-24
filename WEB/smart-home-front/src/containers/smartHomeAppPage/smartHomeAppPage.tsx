@@ -68,16 +68,16 @@ const SmartHomeAppPage: React.FC<{}> = () => {
     }
 
 
-    useEffect(() => {
-        console.log(selectedRoom);
-    }, [selectedRoom])
-
     // const [occupants, setOccupants] = useState<Array<SmartHomeOccupant>>([initialSmartHomeOccupant])
-
 
     useEffect(() => {
         GetSmartHomes().then((response) => {
-            setSmartHome(response.data[0]);
+            console.log(response)
+            if (response.data.length === 0) {
+                goToPage('/createSmartHome');
+            } else {
+                setSmartHome(response.data[0]);
+            }
         }).catch((error) => {
             console.log(error)
         });
@@ -121,20 +121,8 @@ const SmartHomeAppPage: React.FC<{}> = () => {
 
 
     return (
-        <div style={{
-            backgroundColor: 'rgb(198, 239, 241)',
-            width: '100%',
-            height: 'calc(100vh - 120px)',
-            overflowY: 'unset',
-            paddingTop: '120px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignContent: 'space-between',
-            justifyContent: 'space-evenly',
-            justifyItems: 'center',
-
-
-        }}>
+        <div
+            className={styles.mainBody} >
             <AppNavbar />
             <RoomsNavbar rooms={rooms} getRoomId={getRoomId} smartHomeId={1} />
             {smartHome ? <SmartCards selectedRoom={selectedRoom} rooms={rooms} smartHome={smartHome} /> : null}

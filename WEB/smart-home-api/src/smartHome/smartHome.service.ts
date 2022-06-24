@@ -40,7 +40,6 @@ export class SmartHomeService {
         if (!smartHome || userId != smartHome.userId) {
             throw new ForbiddenException('Access to resource denied')
         };
-
         return smartHome;
     }
 

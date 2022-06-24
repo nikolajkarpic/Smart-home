@@ -12,5 +12,5 @@ export const Endpoints = {
     getDoorStatus: '/doorStatus',
     getRooms: '/rooms',
     room: '/room',
-    createRoom: '/create',
+    create: '/create',
 }

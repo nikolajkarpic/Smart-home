@@ -36,6 +36,7 @@ const RoomsNavbar: React.FC<Props> = ({ rooms, getRoomId, smartHomeId }) => {
             })
             console.log(response);
         }).catch((error) => {
+            setAddRoom(false);
             if (error.response.status === 401) {
                 navigate('/signin')
             }

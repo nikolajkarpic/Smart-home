@@ -5,9 +5,6 @@ import { Endpoints } from '../endpoints'
 
 const instance = axios.create({
     baseURL: Endpoints.baseUrl,
-    headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-    }
 });
 
 instance.interceptors.request.use(async config => {
@@ -19,5 +16,15 @@ instance.interceptors.request.use(async config => {
     return error;
 }
 )
+
+instance.interceptors.response.use(async config => {
+    return config;
+}, error => {
+    throw new Error('Lolic')
+    return error;
+}
+)
+
+
 
 export default instance;

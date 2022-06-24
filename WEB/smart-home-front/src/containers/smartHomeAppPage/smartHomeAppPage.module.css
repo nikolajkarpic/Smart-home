@@ -1,0 +1,12 @@
+.mainBody {
+    background-color: rgb(198, 239, 241);
+    width: 100%;
+    height: calc(100vh - 120px);
+    overflow-y: unset;
+    padding-top: 120px;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-evenly;
+    justify-items: center;
+}

@@ -3,6 +3,6 @@ import { Endpoints } from "../endpoints";
 import { AddRoomDto } from "../../global/types";
 
 export const CreateRoom = (smartHomeId: number, dto: AddRoomDto) => {
-    const path = Endpoints.smartHome + `/${smartHomeId}` + Endpoints.room + Endpoints.createRoom
+    const path = Endpoints.smartHome + `/${smartHomeId}` + Endpoints.room + Endpoints.create
     return instance.post(path, { ...dto });
 }

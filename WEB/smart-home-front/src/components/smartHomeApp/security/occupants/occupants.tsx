@@ -59,18 +59,18 @@ const Occupants: React.FC<Props> = ({ smartHomeId }) => {
         })
     }, []);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
 
-            GetOccupants(smartHomeId).then((response) => {
-                setOccupants(response.data)
-            }).catch((error) => {
-                console.log(error)
-            })
+    //         GetOccupants(smartHomeId).then((response) => {
+    //             setOccupants(response.data)
+    //         }).catch((error) => {
+    //             console.log(error)
+    //         })
 
-        }, 1000);
-        return () => clearInterval(interval);
-    }, [])
+    //     }, 1000);
+    //     return () => clearInterval(interval);
+    // }, [])
 
     let transformedOccupants = occupants.
         map(({ name, smartHomeId, RFID, pin, canEnterHouse, id }) => (

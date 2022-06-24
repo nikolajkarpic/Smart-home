@@ -8,6 +8,6 @@ type addOccupant = {
 }
 
 export const CreateOccupant = (smartHomeId: number, dto: addOccupant) => {
-    const path = Endpoints.smartHome + `/${smartHomeId}` + Endpoints.createOccupant
+    const path = Endpoints.smartHome + `/${smartHomeId}` + Endpoints.occupant + Endpoints.create;
     return instance.post(path, { ...dto });
 }
