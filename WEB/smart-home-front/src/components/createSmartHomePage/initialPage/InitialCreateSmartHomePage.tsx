@@ -2,14 +2,21 @@ import styles from './InitialCreateSmartHomePage.module.css'
 import ComputerIcon from '@mui/icons-material/Computer';
 import TabletMacIcon from '@mui/icons-material/TabletMac';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import { FormEvent } from 'react';
 
 type Props = {
     handleFormPageState: () => void;
 }
 
 const InitialCreateSmartHomePage: React.FC<Props> = ({ handleFormPageState }) => {
+
+    const handleInputForm = (event: FormEvent) => {
+        event.preventDefault();
+        handleFormPageState();
+    }
+
     return (
-        <div className={styles.mainBody}>
+        <form onSubmit={handleInputForm} className={styles.mainBody}>
             <div className={styles.textDiv}>
 
                 <h1>
@@ -45,10 +52,10 @@ const InitialCreateSmartHomePage: React.FC<Props> = ({ handleFormPageState }) =>
                 </div>
             </div>
 
-            <button onClick={handleFormPageState}>
+            <button onClick={handleInputForm}>
                 Begin
             </button>
-        </div>
+        </form>
     )
 };
 

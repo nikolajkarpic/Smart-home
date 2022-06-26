@@ -1,0 +1,67 @@
+.mainBody {
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mainBody h1 {
+    text-align: center;
+    color: #0063ba;
+}
+
+.mainBody p {
+    text-align: center;
+    color: #7E93B0;
+    font-size: larger;
+}
+
+.mainBody button {
+    margin-bottom: 100px;
+    width: 10rem;
+    height: 2rem;
+    background-color: #0063ba46;
+    border-radius: 5px;
+    color: blue;
+    font-weight: bolder;
+    font-size: 20px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.mainBody button:hover {
+    background-color: #0063ba;
+    color: #7E93B0;
+}
+
+.mainBody input {
+    background-color: #fff;
+    color: #7884a2;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #1279FD;
+    padding-left: 2%;
+    height: 2rem;
+    width: 200px;
+    margin-top: 20px;
+    box-shadow: inset 0px 2px 3px #dddddd;
+    -webkit-box-shadow: inset 0px 2px 3px #dddddd;
+    -moz-box-shadow: inset 0px 2px 3px #dddddd;
+}
+
+.textDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row-reverse;
+}

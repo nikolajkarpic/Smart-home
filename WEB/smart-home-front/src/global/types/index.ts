@@ -5,3 +5,4 @@ export * from './smartHomeType';
 export * from './editSmartHomeDto';
 export * from './occupantType';
 export * from './createSmartHomeDto';
+export * from './addressType';

@@ -42,5 +42,6 @@
     border-radius: 5px;
     margin-left: 10px;
     margin-right: 10px;
-    background-color: red;
+    background-color: #0063ba46;
+    border: solid 1px #0063ba;
 }
