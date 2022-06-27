@@ -11,9 +11,12 @@ import RoomsNavbar from '../../components/smartHomeApp/roomsNavbar/roomsNavbar';
 import { Room, SmartHome, Occupant } from '../../global/types';
 import { GetRooms, GetSmartHomes } from '../../api';
 import SmartCards from '../../components/smartHomeApp/smartCads/smartCards';
+import { useErrorHandler } from 'react-error-boundary';
 
 const SmartHomeAppPage: React.FC<{}> = () => {
 
+
+    const hadnleError = useErrorHandler();
     const navigate = useNavigate();
     const goToPage = (to: string) => {
         navigate(to);
@@ -79,17 +82,20 @@ const SmartHomeAppPage: React.FC<{}> = () => {
                 setSmartHome(response.data[0]);
             }
         }).catch((error) => {
-            console.log(error)
+            error.response.status === 401 ? goToPage('/signin') : console.log(error)
         });
-        GetRooms(1).then((response) => {
-            console.log(response);
-            const data = response.data;
-            setRooms([...data]);
-            console.log(rooms);
+        if (smartHome) {
 
-        }).catch((error) => {
-            console.log(error)
-        })
+            GetRooms(smartHome?.id).then((response) => {
+                console.log(response);
+                const data = response.data;
+                setRooms([...data]);
+                console.log(rooms);
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
     }, [])
 
     useEffect(() => {
@@ -124,7 +130,7 @@ const SmartHomeAppPage: React.FC<{}> = () => {
         <div
             className={styles.mainBody} >
             <AppNavbar />
-            <RoomsNavbar rooms={rooms} getRoomId={getRoomId} smartHomeId={1} />
+            <RoomsNavbar rooms={rooms} getRoomId={getRoomId} smartHomeId={smartHome ? smartHome?.id : 1} />
             {smartHome ? <SmartCards selectedRoom={selectedRoom} rooms={rooms} smartHome={smartHome} /> : null}
             {/* <div>MainBody</div> */}
             {smartHome ? <Security smartHome={smartHome} /> : null}

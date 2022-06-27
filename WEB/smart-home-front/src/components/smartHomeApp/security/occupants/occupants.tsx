@@ -87,7 +87,7 @@ const Occupants: React.FC<Props> = ({ smartHomeId }) => {
     const deleteOccupant = (occupantId: number, smartHomeId: number) => {
         DeleteOccupant(occupantId, smartHomeId).then(() => {
 
-            GetOccupants(1).then((response) => {
+            GetOccupants(smartHomeId).then((response) => {
                 setOccupants(response.data)
                 console.log(response.data);
             }).catch((error) => {
@@ -106,10 +106,10 @@ const Occupants: React.FC<Props> = ({ smartHomeId }) => {
     //1 needs to be replaced by smarthome id that is passed as prop
 
     const submitAddOccupant = () => {
-        CreateOccupant(1, addOccupantDto).then(() => {
+        CreateOccupant(smartHomeId, addOccupantDto).then(() => {
             setAddOccupantDto(initialAddOccupant);
             setAddOccupant(false);
-            GetOccupants(1).then((response) => {
+            GetOccupants(smartHomeId).then((response) => {
                 setOccupants(response.data)
                 console.log(response.data);
             }).catch((error) => {

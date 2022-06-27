@@ -8,18 +8,24 @@ import LandingPage from './containers/landingPage/landingPage';
 import { SignUpPage } from './containers/signUpPage/signUpPage';
 import SmartHomeAppPage from "./containers/smartHomeAppPage/smartHomeAppPage";
 import CreateSmartHomePage from "./containers/createSmartHomePage/createSmartHomePage";
+import { ErrorBoundary } from "react-error-boundary";
+import Fallback from "./containers/fallback/fallback";
+
+
+
 
 function App() {
+
+
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signin" element={<SignInPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/app" element={<SmartHomeAppPage />} />
-        <Route path='/createSmartHome' element={<CreateSmartHomePage />} />
-      </Routes>
-    </>
+
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/signin" element={<SignInPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/app" element={<SmartHomeAppPage />} />
+      <Route path='/createSmartHome' element={<CreateSmartHomePage />} />
+    </Routes>
   );
 }
 

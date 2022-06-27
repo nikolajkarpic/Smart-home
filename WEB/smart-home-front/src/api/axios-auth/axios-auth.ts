@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Endpoints } from '../endpoints'
 
 
@@ -16,15 +16,6 @@ instance.interceptors.request.use(async config => {
     return error;
 }
 )
-
-instance.interceptors.response.use(async config => {
-    return config;
-}, error => {
-    throw new Error('Lolic')
-    return error;
-}
-)
-
 
 
 export default instance;

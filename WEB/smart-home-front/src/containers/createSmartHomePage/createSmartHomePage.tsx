@@ -28,6 +28,7 @@ const CreateSmartHomePage = () => {
                 name: smartHomeName,
                 address: address.street + ', ' + address.city,
                 zipCode: address.zipCode,
+                currentTemperature: 16,
             })
         }
     }
