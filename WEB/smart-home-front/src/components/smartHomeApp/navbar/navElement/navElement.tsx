@@ -8,10 +8,11 @@ import Backdrop from '../backdrop/backdrop';
 type Props = {
     children: React.ReactNode;
     icon: any;
+    text?: string;
 }
 
 
-const NavElement: React.FC<Props> = ({ children, icon }) => {
+const NavElement: React.FC<Props> = ({ children, icon, text }) => {
 
     const [open, setOpen] = useState(false);
 
@@ -22,6 +23,7 @@ const NavElement: React.FC<Props> = ({ children, icon }) => {
                 onClick={() => setOpen(!open)}
                 color='inherit'>
                 {icon}
+                {text}
             </Button>
             <Backdrop clicked={() => setOpen(!open)} show={open} />
             {open && children}

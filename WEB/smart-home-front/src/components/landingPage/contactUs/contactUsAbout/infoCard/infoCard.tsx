@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const InfoCard: React.FC<Props> = ({ title, description, icon }) => {
-    console.log(icon)
     return (<div className={styles.card}>
         <div style={{
             width: '20%',

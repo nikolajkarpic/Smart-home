@@ -9,9 +9,9 @@ type Props = {
 const DropdownMenu: React.FC<Props> = ({ children }) => {
     return (
         <div className={styles.dropdown}>
-            <DropdownItem>
-                {children}
-            </DropdownItem>
+
+            {children}
+
         </div>)
 }
 export default DropdownMenu;

@@ -118,7 +118,7 @@ const SmartHomeAppPage: React.FC<{}> = () => {
             GetSmartHomes().then((response) => {
                 setSmartHome(response.data[0]);
             }).catch((error) => {
-                console.log(error)
+                error.response.status === 401 ? goToPage('/signin') : console.log(error)
             });
 
         }, 1000);

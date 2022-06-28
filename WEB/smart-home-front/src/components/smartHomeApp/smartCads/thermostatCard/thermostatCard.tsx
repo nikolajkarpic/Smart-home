@@ -75,7 +75,6 @@ const ThermostatCard: FC<Props> = ({ name, currentTemperature, prefferedTemperat
             EditRoomById(smartHomeId, roomId, {
                 prefferedTemperature: prefferedCardTemperature
             }).then((response) => {
-                console.log(response)
                 setPrefferedCardTemperatureTmp(prefferedCardTemperature)
             }).catch((error) => {
                 console.log(error)
@@ -84,7 +83,6 @@ const ThermostatCard: FC<Props> = ({ name, currentTemperature, prefferedTemperat
             EditSmartHomeById(smartHomeId, {
                 prefferedTemperature: prefferedCardTemperature
             }).then((response) => {
-                console.log(response)
             }).catch((error) => {
                 console.log(error)
             })
